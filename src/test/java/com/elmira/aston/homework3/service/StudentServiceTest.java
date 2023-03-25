@@ -12,15 +12,13 @@ import java.util.List;
 import static com.elmira.aston.homework3.data.StudentDataTest.*;
 import static com.elmira.aston.homework3.data.UniversityDataTest.*;
 
-
 public class StudentServiceTest {
-
     StudentRepository studentRepository;
 
     @BeforeEach
     void beforeEach() {
         studentRepository = new StudentService("h2");
-        String DB_URL = "jdbc:h2:./db/uni;INIT=runscript from 'src/main/resources/create_tables_h2.sql'";
+        String DB_URL = "jdbc:h2:./db/uni;INIT=runscript from 'src/test/resources/create_tables_h2.sql'";
         String DB_USER = "sa";
         String DB_PASSWORD = "";
         String DRIVER = "org.h2.Driver";
@@ -39,7 +37,6 @@ public class StudentServiceTest {
         beforeEach();
         Student student = studentRepository.getStudent(1);
         Assert.assertEquals(ADAM.getName(), student.getName());
-
     }
 
     @Test
@@ -55,18 +52,15 @@ public class StudentServiceTest {
         beforeEach();
         studentRepository.deleteStudent(8);
         Assert.assertEquals(students.size() - 1, studentRepository.getAllStudents().size());
-
-
     }
 
     @Test
     public void updateStudent() {
         beforeEach();
-        Student student = new Student(1, "Alex", Oxford);
+        Student student = new Student(1, "Alex", Harvard);
         studentRepository.updateStudent(student);
         Assert.assertEquals("Alex", studentRepository.getStudent(1).getName());
-        Assert.assertEquals(Oxford, studentRepository.getStudent(1).getUniversity());
-
+        Assert.assertEquals(Harvard.getName(), studentRepository.getStudent(1).getUniversity().getName());
     }
 
     @Test
@@ -74,14 +68,13 @@ public class StudentServiceTest {
         beforeEach();
         List<Student> allStudents = studentRepository.getAllStudents();
         Assert.assertEquals(students.size(), allStudents.size());
-
     }
 
     @Test
     public void getAllStudentsWithUniversity() {
         beforeEach();
         List<Student> allStudentsWithUniversity = studentRepository.getAllStudentsWithUniversity();
-        Student student = allStudentsWithUniversity.get(2);
+        Student student = allStudentsWithUniversity.get(1);
         Assert.assertEquals(Harvard.getName(), student.getUniversity().getName());
         Assert.assertEquals(students.size(), allStudentsWithUniversity.size());
     }

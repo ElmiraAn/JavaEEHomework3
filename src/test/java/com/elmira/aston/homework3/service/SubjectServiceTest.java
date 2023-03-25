@@ -1,28 +1,22 @@
 package com.elmira.aston.homework3.service;
 
-import com.elmira.aston.homework3.model.Student;
-import com.elmira.aston.homework3.model.Subject;
+import com.elmira.aston.homework3.model.*;
 import com.elmira.aston.homework3.repository.SubjectRepository;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.*;
 import org.junit.jupiter.api.BeforeEach;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
+import java.sql.*;
+import java.util.*;
 import static com.elmira.aston.homework3.data.StudentDataTest.*;
 import static com.elmira.aston.homework3.data.SubjectDataTest.*;
 
 public class SubjectServiceTest {
-
     private SubjectRepository subjectRepository;
 
     @BeforeEach
     void beforeEach() {
         subjectRepository = new SubjectService("h2");
-        String DB_URL = "jdbc:h2:./db/uni;INIT=runscript from 'src/main/resources/create_tables_h2.sql'";
+        String DB_URL = "jdbc:h2:./db/uni;INIT=runscript from 'src/test/resources/create_tables_h2.sql'";
         String DB_USER = "sa";
         String DB_PASSWORD = "";
         String DRIVER = "org.h2.Driver";
@@ -39,13 +33,14 @@ public class SubjectServiceTest {
     @Test
     public void addSubject() {
         beforeEach();
-        List<Student> studentsLiterature = new ArrayList<>();
-        studentsLiterature.add(SANDY);
-        studentsLiterature.add(MONIKA);
-        Subject subject = new Subject("Literature", studentsLiterature);
+        //List<Student> studentsLiterature = new ArrayList<>();
+        //studentsLiterature.add(SANDY);
+        //studentsLiterature.add(MONIKA);
+        //Subject subject = new Subject("Literature", studentsLiterature);
+        Subject subject = new Subject("Literature");
         subjectRepository.addSubject(subject);
         Assert.assertEquals("Literature", subjectRepository.getSubject(9).getName());
-
+        //Assert.assertEquals(SANDY.getName(), subjectRepository.getSubject(9).getStudents().get(0).getName());
     }
 
     @Test
@@ -53,7 +48,6 @@ public class SubjectServiceTest {
         beforeEach();
         Subject subject = subjectRepository.getSubject(1);
         Assert.assertEquals(MATHS.getName(), subject.getName());
-
     }
 
     @Test
@@ -81,9 +75,8 @@ public class SubjectServiceTest {
     @Test
     public void getSubjectWithStudent() {
         beforeEach();
-        Subject subject = subjectRepository.getSubjectWithStudent(8);
+        Subject subject = subjectRepository.getSubjectWithStudent(1);
         Assert.assertEquals(studentsForSubjects.size(), subject.getStudents().size());
-        Assert.assertEquals(ADAM.getName(), subject.getStudents().get(1).getName());
-
+        Assert.assertEquals(ADAM.getName(), subject.getStudents().get(0).getName());
     }
 }

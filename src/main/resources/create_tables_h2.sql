@@ -29,7 +29,7 @@ create table student_subject (
                                  subject_id INT,
                                  FOREIGN KEY (student_id)  REFERENCES students (student_id),
                                  FOREIGN KEY (subject_id)  REFERENCES subjects (subject_id),
-                                 PRIMARY KEY (id)
+                                 PRIMARY KEY (student_subject_id)
 );
 INSERT INTO universities (university_id, university_name) VALUES
                                                               (1, 'Oxford'),

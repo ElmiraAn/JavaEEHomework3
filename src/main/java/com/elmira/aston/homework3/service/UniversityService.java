@@ -27,7 +27,7 @@ public class UniversityService implements UniversityRepository {
             PASSWORD = "bestuser";
             DRIVER = "com.mysql.jdbc.Driver";
         } else if (database.equals("h2")) {
-            JDBC_URL = "jdbc:h2:./db/uni;DB_CLOSE-DELAY=-1";
+            JDBC_URL = "jdbc:h2:./db/uni;DB_CLOSE_DELAY=-1;";
             USERNAME = "sa";
             PASSWORD = "";
             DRIVER = "org.h2.Driver";

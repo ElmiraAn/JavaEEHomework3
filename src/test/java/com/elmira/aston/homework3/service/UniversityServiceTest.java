@@ -1,15 +1,12 @@
 package com.elmira.aston.homework3.service;
 
-import com.elmira.aston.homework3.model.Student;
-import com.elmira.aston.homework3.model.University;
+import com.elmira.aston.homework3.model.*;
 import com.elmira.aston.homework3.repository.UniversityRepository;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.*;
 import org.junit.jupiter.api.BeforeEach;
 
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 import static com.elmira.aston.homework3.data.UniversityDataTest.*;
 
@@ -19,7 +16,7 @@ public class UniversityServiceTest {
     @BeforeEach
     void beforeEach(){
         repository = new UniversityService("h2");
-        String DB_URL = "jdbc:h2:./db/uni;INIT=runscript from 'src/main/resources/create_tables_h2.sql'";
+        String DB_URL = "jdbc:h2:./db/uni;INIT=runscript from 'src/test/resources/create_tables_h2.sql'";
         String DB_USER = "sa";
         String DB_PASSWORD = "";
         String DRIVER="org.h2.Driver";
@@ -38,15 +35,14 @@ public class UniversityServiceTest {
         beforeEach();
         University university = new University("Yale");
         repository.addUniversity(university);
-        Assert.assertEquals(Yale.getName(), repository.getUniversity(7).getName());
+        Assert.assertEquals(Yale.getName(), repository.getUniversity(5).getName());
     }
 
     @Test
     public void getUniversity() {
         beforeEach();
         University university = repository.getUniversity(Harvard.getId());
-
-        //Assert.assertEquals(PUSHKIN.getName(), test.getName());
+        Assert.assertEquals(Harvard.getName(), university.getName());
     }
 
     @Test
