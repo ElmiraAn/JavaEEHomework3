@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
+         version="3.1">
+  <display-name>Archetype Created Web Application</display-name>
+  
+  <servlet-mapping>
+    <servlet-name>AddServlet</servlet-name>
+    <url-pattern>/add</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <servlet-name>AddServlet</servlet-name>
+    <servlet-class>com.elmira.aston.homework3.servlets.AddServlet</servlet-class>
+  </servlet>
+
+  <servlet>
+    <servlet-name>Success</servlet-name>
+    <jsp-file>/Success.jsp</jsp-file>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>Success</servlet-name>
+    <url-pattern>/success</url-pattern>
+  </servlet-mapping>
+
+  <!--<servlet>
+    <servlet-name>AllStudent</servlet-name>
+    <jsp-file>/all-student.jsp</jsp-file>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>AllStudent</servlet-name>
+    <url-pattern>/all-student</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>StudentInfo</servlet-name>
+    <jsp-file>/student-info.jsp</jsp-file>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>StudentInfo</servlet-name>
+    <url-pattern>/studentInfo</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>StudentNoUni</servlet-name>
+    <jsp-file>/all-student-no-uni.jsp</jsp-file>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>StudentNoUni</servlet-name>
+    <url-pattern>/all-student-no-uni</url-pattern>
+  </servlet-mapping>-->
+
+</web-app>
