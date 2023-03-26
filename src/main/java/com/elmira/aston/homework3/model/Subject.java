@@ -1,6 +1,7 @@
 package com.elmira.aston.homework3.model;
 
 import java.util.List;
+import java.util.Objects;
 
 public class Subject {
 
@@ -53,5 +54,18 @@ public class Subject {
 
     public void setStudents(List<Student> students) {
         this.students = students;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Subject subject = (Subject) o;
+        return id == subject.id && Objects.equals(name, subject.name) /*&& Objects.equals(students, subject.students)*/;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name/*, students*/);
     }
 }

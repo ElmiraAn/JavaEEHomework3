@@ -18,4 +18,6 @@ public interface StudentRepository {
 
     List<Student> getAllStudents();
     List<Student> getAllStudentsWithUniversity();
+
+    Student getStudentWithSubjects(int id);
 }

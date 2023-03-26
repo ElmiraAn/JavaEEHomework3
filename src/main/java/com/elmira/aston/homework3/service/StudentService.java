@@ -1,6 +1,7 @@
 package com.elmira.aston.homework3.service;
 
 import com.elmira.aston.homework3.model.Student;
+import com.elmira.aston.homework3.model.Subject;
 import com.elmira.aston.homework3.model.University;
 import com.elmira.aston.homework3.repository.StudentRepository;
 
@@ -20,7 +21,7 @@ public class StudentService implements StudentRepository {
 
     public StudentService(String database) {
         if (database.equals("mysql")) {
-            JDBC_URL = "jdbc:mysql://localhost:3306/aston_db?useSSL=false&amp";
+            JDBC_URL = "jdbc:mysql://localhost:3306/aston_db";
             USERNAME = "bestuser";
             PASSWORD = "bestuser";
             DRIVER = "com.mysql.jdbc.Driver";
@@ -143,5 +144,30 @@ public class StudentService implements StudentRepository {
             throw new RuntimeException(e);
         }
         return students;
+    }
+
+    @Override
+    public Student getStudentWithSubjects(int id) {
+        Student studentWithSubjects = null;
+        List<Subject> subjects = new ArrayList<>();
+        try (Connection connection = getConnection();
+             PreparedStatement ps = connection.prepareStatement(
+                     "SELECT st.student_name, sub.subject_name, sub.subject_id FROM students st " +
+                             "JOIN student_subject ss on ss.student_id = st.student_id "+
+                             "JOIN subjects sub on ss.subject_id = sub.subject_id WHERE st.student_id=?")) {
+            ps.setInt(1, id);
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                String studentName = rs.getString("student_name");
+                int subjectId = rs.getInt("subject_id");
+                String subjectName = rs.getString("subject_name");
+                subjects.add(new Subject(subjectId, subjectName));
+                studentWithSubjects = new Student(id, studentName,  subjects);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return studentWithSubjects;
     }
 }

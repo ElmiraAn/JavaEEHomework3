@@ -17,6 +17,7 @@ public class SubjectServiceTest {
     void beforeEach() {
         subjectRepository = new SubjectService("h2");
         String DB_URL = "jdbc:h2:./db/uni;INIT=runscript from 'src/test/resources/create_tables_h2.sql'";
+        //String DB_URL = "jdbc:h2:./db/uni;INIT=runscript from 'src/test/resources/db_h2.sql'";
         String DB_USER = "sa";
         String DB_PASSWORD = "";
         String DRIVER = "org.h2.Driver";
@@ -76,7 +77,7 @@ public class SubjectServiceTest {
     public void getSubjectWithStudent() {
         beforeEach();
         Subject subject = subjectRepository.getSubjectWithStudent(1);
-        Assert.assertEquals(studentsForSubjects.size(), subject.getStudents().size());
+        Assert.assertEquals(subjectsFotStudent.size(), subject.getStudents().size());
         Assert.assertEquals(ADAM.getName(), subject.getStudents().get(0).getName());
     }
 }

@@ -22,6 +22,13 @@ public class UniversityServlet extends HttpServlet {
 
     private UniversityRepository universityRepository;
 
+    public UniversityServlet() {
+    }
+
+    public UniversityServlet(UniversityRepository universityRepository) {
+        this.universityRepository = universityRepository;
+    }
+
     @Override
     public void init() throws ServletException {
         this.universityRepository = new UniversityService("mysql");

@@ -1,10 +1,13 @@
 package com.elmira.aston.homework3.data;
 
 import com.elmira.aston.homework3.model.Student;
+import com.elmira.aston.homework3.model.Subject;
+
 
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.elmira.aston.homework3.data.SubjectDataTest.*;
 import static com.elmira.aston.homework3.data.UniversityDataTest.*;
 
 public class StudentDataTest {
@@ -20,6 +23,8 @@ public class StudentDataTest {
 
     public static List<Student> students = new ArrayList<>();
 
+    public static List<Subject> subjectsForStudent_1 = new ArrayList<>();
+
     static {
         students.add(ADAM);
         students.add(ANDY);
@@ -30,6 +35,8 @@ public class StudentDataTest {
         students.add(CHENDLER);
         students.add(MONIKA);
 
+        subjectsForStudent_1.add(MATHS);
+        subjectsForStudent_1.add(PHYSICS);
     }
 
 

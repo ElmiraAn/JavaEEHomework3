@@ -10,6 +10,8 @@ import java.sql.*;
 import java.util.List;
 
 import static com.elmira.aston.homework3.data.StudentDataTest.*;
+import static com.elmira.aston.homework3.data.SubjectDataTest.MATHS;
+import static com.elmira.aston.homework3.data.SubjectDataTest.subjectsFotStudent;
 import static com.elmira.aston.homework3.data.UniversityDataTest.*;
 
 public class StudentServiceTest {
@@ -19,6 +21,7 @@ public class StudentServiceTest {
     void beforeEach() {
         studentRepository = new StudentService("h2");
         String DB_URL = "jdbc:h2:./db/uni;INIT=runscript from 'src/test/resources/create_tables_h2.sql'";
+        //String DB_URL = "jdbc:h2:./db/uni;INIT=runscript from 'src/test/resources/db_h2.sql'";
         String DB_USER = "sa";
         String DB_PASSWORD = "";
         String DRIVER = "org.h2.Driver";
@@ -77,5 +80,15 @@ public class StudentServiceTest {
         Student student = allStudentsWithUniversity.get(1);
         Assert.assertEquals(Harvard.getName(), student.getUniversity().getName());
         Assert.assertEquals(students.size(), allStudentsWithUniversity.size());
+    }
+
+    @Test
+    public void getStudentWithSubjects() {
+        beforeEach();
+        Student student = studentRepository.getStudentWithSubjects(1);
+
+        Assert.assertEquals(subjectsForStudent_1.size(), student.getSubjects().size());
+        Assert.assertEquals(MATHS.getName(), student.getSubjects().get(0).getName());
+
     }
 }

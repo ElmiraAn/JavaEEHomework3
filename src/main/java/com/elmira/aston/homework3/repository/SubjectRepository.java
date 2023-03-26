@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface SubjectRepository {
 
-    void addSubject(Subject Subject);
+    void addSubject(Subject subject);
 
     Subject getSubject(int id);
 

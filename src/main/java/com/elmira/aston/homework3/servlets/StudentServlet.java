@@ -1,6 +1,7 @@
 package com.elmira.aston.homework3.servlets;
 
 import com.elmira.aston.homework3.model.Student;
+import com.elmira.aston.homework3.model.Subject;
 import com.elmira.aston.homework3.model.University;
 import com.elmira.aston.homework3.repository.*;
 import com.elmira.aston.homework3.service.*;
@@ -16,11 +17,19 @@ import java.util.List;
 import java.util.Objects;
 
 @WebServlet(urlPatterns = {"/student/add", "/student/update", "/student/delete",
-        "/student/get-all", "/student/get", "/student/get-with-uni"})
+        "/student/get-all", "/student/get", "/student/get-with-uni", "/student/get-subjects"})
 public class StudentServlet extends HttpServlet {
     //private static final long serialVersionUID = 1 L;
     private StudentRepository studentRepository;
     private UniversityRepository universityRepository;
+
+    public StudentServlet() {
+    }
+
+    public StudentServlet(StudentRepository studentRepository, UniversityRepository universityRepository) {
+        this.studentRepository = studentRepository;
+        this.universityRepository = universityRepository;
+    }
 
     @Override
     public void init() throws ServletException {
@@ -47,6 +56,8 @@ public class StudentServlet extends HttpServlet {
                 break;
             case "/student/get-all":
                 showAllStudents(request, response);
+            case "/student/get-subjects":
+                getStudentWithSubjects(request, response);
             default:
                 allStudentsWithUni(request, response);
         }
@@ -54,30 +65,7 @@ public class StudentServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
-    }
-
-    private void allStudentsWithUni(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        List<Student> students = studentRepository.getAllStudentsWithUniversity();
-        //RequestDispatcher dispatcher = request.getRequestDispatcher("all-students.jsp");
-
-        request.setAttribute("students", students);
-        try {
-            request.setCharacterEncoding("UTF-8");
-            response.setCharacterEncoding("UTF-8");
-            response.setContentType("text/html");
-            PrintWriter pw = response.getWriter();
-            for(Student student : students) {
-                pw.println(student.getName() + " - Университет: " + student.getUniversity().getName() + " | \r\n");
-
-            }
-            pw.close();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-        //RequestDispatcher dispatcher = request.getRequestDispatcher("all-students.jsp");
-        //dispatcher.forward(request, response);
-        //response.sendRedirect("all-students.jsp");
+        doGet(request, response);
     }
 
     private void addStudent(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -128,9 +116,9 @@ public class StudentServlet extends HttpServlet {
 
     private void showAllStudents(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
         List<Student> students = studentRepository.getAllStudents();
-        RequestDispatcher dispatcher = request.getRequestDispatcher("all-student-no-uni.jsp");
+        //RequestDispatcher dispatcher = request.getRequestDispatcher("all-student-no-uni.jsp");
 
-        request.setAttribute("studentsNoUni", students);
+       // request.setAttribute("studentsNoUni", students);
         try {
             request.setCharacterEncoding("UTF-8");
             response.setCharacterEncoding("UTF-8");
@@ -146,6 +134,44 @@ public class StudentServlet extends HttpServlet {
         //RequestDispatcher dispatcher = request.getRequestDispatcher("all-student-no-uni.jsp");
         //dispatcher.forward(request, response);
         //response.sendRedirect("all-student-no-uni.jsp");
+    }
+
+    private void allStudentsWithUni(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        List<Student> students = studentRepository.getAllStudentsWithUniversity();
+        //RequestDispatcher dispatcher = request.getRequestDispatcher("all-students.jsp");
+
+        request.setAttribute("students", students);
+        try {
+            request.setCharacterEncoding("UTF-8");
+            response.setCharacterEncoding("UTF-8");
+            response.setContentType("text/html");
+            PrintWriter pw = response.getWriter();
+            for(Student student : students) {
+                pw.println(student.getName() + " - Университет: " + student.getUniversity().getName() + " | ");
+
+            }
+            pw.close();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private void getStudentWithSubjects(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        try {
+            request.setCharacterEncoding("UTF-8");
+            response.setCharacterEncoding("UTF-8");
+            response.setContentType("text/html");
+            PrintWriter pw = response.getWriter();
+            Student student = studentRepository.getStudentWithSubjects(getValidId(request));
+            List<Subject> subjects = student.getSubjects();
+            pw.println(student.getName() + ": ");
+            for (Subject subject : subjects) {
+                pw.print(subject.getName() + ", ");
+            }
+            pw.close();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     private int getValidId(HttpServletRequest request) {

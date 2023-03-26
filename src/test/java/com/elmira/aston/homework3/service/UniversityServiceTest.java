@@ -17,6 +17,7 @@ public class UniversityServiceTest {
     void beforeEach(){
         repository = new UniversityService("h2");
         String DB_URL = "jdbc:h2:./db/uni;INIT=runscript from 'src/test/resources/create_tables_h2.sql'";
+        //String DB_URL = "jdbc:h2:./db/uni;INIT=runscript from 'src/test/resources/db_h2.sql'";
         String DB_USER = "sa";
         String DB_PASSWORD = "";
         String DRIVER="org.h2.Driver";

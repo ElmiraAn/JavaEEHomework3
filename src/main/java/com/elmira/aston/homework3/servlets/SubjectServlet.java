@@ -21,6 +21,13 @@ public class SubjectServlet extends HttpServlet {
 
     private SubjectRepository subjectRepository;
 
+    public SubjectServlet() {
+    }
+
+    public SubjectServlet(SubjectRepository subjectRepository) {
+        this.subjectRepository = subjectRepository;
+    }
+
     @Override
     public void init() throws ServletException {
         this.subjectRepository = new SubjectService("mysql");
@@ -74,8 +81,8 @@ public class SubjectServlet extends HttpServlet {
     }
 
     private void addSubject(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        Subject newCategory = new Subject(getValidId(request), request.getParameter("subject_name"));
-        subjectRepository.addSubject(newCategory);
+        Subject subject = new Subject(request.getParameter("subject_name"));
+        subjectRepository.addSubject(subject);
         response.sendRedirect("/Success.jsp");
     }
 

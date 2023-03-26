@@ -19,7 +19,7 @@ public class SubjectDataTest {
     public static final Subject PHYSICS = new Subject("Physics");
     public static final Subject ASTRONOMY = new Subject("Astronomy");
     public static List<Subject> expected_subjects = new ArrayList<>();
-    public static List<Student> studentsForSubjects = new ArrayList<>();
+    public static List<Student> subjectsFotStudent = new ArrayList<>();
 
     static {
         expected_subjects.add(MATHS);
@@ -32,8 +32,8 @@ public class SubjectDataTest {
         expected_subjects.add(ASTRONOMY);
 
 
-        studentsForSubjects.add(ADAM);
-        studentsForSubjects.add(JOE);
-        studentsForSubjects.add(MONIKA);
+        subjectsFotStudent.add(ADAM);
+        subjectsFotStudent.add(JOE);
+        subjectsFotStudent.add(MONIKA);
     }
 }

@@ -22,7 +22,7 @@ public class UniversityService implements UniversityRepository {
 
     public UniversityService(String database) {
         if (database.equals("mysql")) {
-            JDBC_URL = "jdbc:mysql://localhost:3306/aston_db?useSSL=false&amp";
+            JDBC_URL = "jdbc:mysql://localhost:3306/aston_db";
             USERNAME = "bestuser";
             PASSWORD = "bestuser";
             DRIVER = "com.mysql.jdbc.Driver";

@@ -1,6 +1,7 @@
 package com.elmira.aston.homework3.model;
 
 import java.util.List;
+import java.util.Objects;
 
 public class University {
     private int id;
@@ -52,5 +53,18 @@ public class University {
 
     public void setStudents(List<Student> students) {
         this.students = students;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        University that = (University) o;
+        return id == that.id && Objects.equals(name, that.name) && Objects.equals(students, that.students);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, students);
     }
 }
