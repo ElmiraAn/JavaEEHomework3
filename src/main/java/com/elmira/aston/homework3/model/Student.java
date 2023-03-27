@@ -33,6 +33,11 @@ public class Student {
         this.subjects = subjects;
     }
 
+    public Student(String name, List<Subject> subjects) {
+        this.name = name;
+        this.subjects = subjects;
+    }
+
     public Student(String name, University university, List<Subject> subjects) {
         this.name = name;
         this.university = university;
