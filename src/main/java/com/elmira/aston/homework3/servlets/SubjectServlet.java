@@ -1,24 +1,18 @@
 package com.elmira.aston.homework3.servlets;
 
-import com.elmira.aston.homework3.model.Student;
-import com.elmira.aston.homework3.model.Subject;
+import com.elmira.aston.homework3.model.*;
 import com.elmira.aston.homework3.repository.SubjectRepository;
 import com.elmira.aston.homework3.service.SubjectService;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.List;
-import java.util.Objects;
+import javax.servlet.http.*;
+import java.io.*;
+import java.util.*;
 
 @WebServlet(urlPatterns = {"/subject/add", "/subject/update", "/subject/delete",
         "/subject/get", "/subject/get-all", "/subject/get-with-students"})
 public class SubjectServlet extends HttpServlet {
-
     private SubjectRepository subjectRepository;
 
     public SubjectServlet() {

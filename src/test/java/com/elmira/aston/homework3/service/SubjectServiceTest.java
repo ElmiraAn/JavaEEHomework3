@@ -17,7 +17,6 @@ public class SubjectServiceTest {
     void beforeEach() {
         subjectRepository = new SubjectService("h2");
         String DB_URL = "jdbc:h2:./db/uni;INIT=runscript from 'src/test/resources/create_tables_h2.sql'";
-        //String DB_URL = "jdbc:h2:./db/uni;INIT=runscript from 'src/test/resources/db_h2.sql'";
         String DB_USER = "sa";
         String DB_PASSWORD = "";
         String DRIVER = "org.h2.Driver";
@@ -34,14 +33,9 @@ public class SubjectServiceTest {
     @Test
     public void addSubject() {
         beforeEach();
-        //List<Student> studentsLiterature = new ArrayList<>();
-        //studentsLiterature.add(SANDY);
-        //studentsLiterature.add(MONIKA);
-        //Subject subject = new Subject("Literature", studentsLiterature);
         Subject subject = new Subject("Literature");
         subjectRepository.addSubject(subject);
         Assert.assertEquals("Literature", subjectRepository.getSubject(9).getName());
-        //Assert.assertEquals(SANDY.getName(), subjectRepository.getSubject(9).getStudents().get(0).getName());
     }
 
     @Test

@@ -47,20 +47,22 @@ public class StudentServletTest {
 
         when(request.getServletPath()).thenReturn("/student/get-with-uni");
         studentServlet.doGet(request, response);
-        //verify(studentRepository).getAllStudentsWithUniversity();
+        verify(studentRepository).getAllStudentsWithUniversity();
         Assertions.assertEquals("Mary - Университет: Princeton | \r\nKaren - Университет: Yale | \r\n", writer.toString());
     }
 
     @Test
     public void addStudentTest() throws IOException, ServletException {
+        University uni = new University(1, "Princeton");
 
+        when(universityRepository.getUniversity(1)).thenReturn(uni);
         when(request.getParameter("student_name")).thenReturn("Mary");
         when(request.getParameter("university_id")).thenReturn("1");
         when(request.getServletPath()).thenReturn("/student/add");
-        //University uni = new University(1, "Princeton");
+
         studentServlet.doGet(request, response);
-        //verify(universityRepository).getUniversity(1);
-        //verify(studentRepository).addStudent(new Student("Mary",1));
+        verify(universityRepository).getUniversity(1);
+        verify(studentRepository).addStudent(new Student("Mary"),1);
         verify(response).sendRedirect("/Success.jsp");
     }
 
@@ -87,6 +89,7 @@ public class StudentServletTest {
         verify(studentRepository).deleteStudent(2);
         verify(response).sendRedirect("/Success.jsp");
     }
+
     @Test
     public void showStudentTest() throws ServletException, IOException {
         University uni = new University(1, "Princeton");
@@ -100,52 +103,77 @@ public class StudentServletTest {
         //verify(studentRepository, times(2));
         Assertions.assertEquals("Student: Mary  - University: Princeton\r\n", writer.toString());
     }
+
     @Test
-    public void showAllStudentsTest() throws ServletException, IOException{
+    public void showAllStudentsTest() throws ServletException, IOException {
 
         Student s1 = new Student(1, "Bob");
         Student s2 = new Student(2, "Mary");
         Student s3 = new Student(3, "Helen");
 
-        List<Student> students = Arrays.asList(s1,s2,s3);
+        List<Student> students = Arrays.asList(s1, s2, s3);
         when(studentRepository.getAllStudents()).thenReturn(students);
         when(request.getServletPath()).thenReturn("/student/get-all");
-        //when(request.getParameter("student_id")).thenReturn("1");
         studentServlet.doGet(request, response);
         assertEquals("Bob | Mary | Helen | ", writer.toString());
     }
 
-    /*@Test
-    public void getStudentWithSubjectsTest() throws ServletException, IOException {
-        Subject s1 = new Subject(1, "Math");
-        Subject s2 = new Subject(2, "Art");
-        Student student = new Student(1, "Adam", Arrays.asList(s1,s2));
+    @Test
+    public void addSubjectForStudentTest() throws ServletException, IOException {
+        Student student = new Student(1, "Mary", new University(1, "Princeton"));
+        Subject subject = new Subject(1, "Maths");
 
+        when(request.getServletPath()).thenReturn("/student/add-subject");
         when(request.getParameter("student_id")).thenReturn("1");
-        when(studentRepository.getStudentWithSubjects(1)).thenReturn(student);
-        when(request.getServletPath()).thenReturn("/student/get-subjects");
+        when(request.getParameter("subject_id")).thenReturn("1");
+        when(studentRepository.getStudent(1)).thenReturn(student);
+        when(subjectRepository.getSubject(1)).thenReturn(subject);
+
         studentServlet.doGet(request, response);
 
-        verify(studentRepository).getStudentWithSubjects(1);
-        assertEquals("Adam: \r\nMath, Art, ", writer.toString());
+        verify(studentRepository).addSubjectForStudent(student, subject);
+        verify(response).sendRedirect("/Success.jsp");
+    }
 
-    }*/
+    @Test
+    public void getSubjectsForStudentTest() throws ServletException, IOException {
+        List<Subject> subjects = Arrays.asList(
+                new Subject(1, "Maths"),
+                new Subject(2, "History")
+        );
+        Student student = new Student(1, "Mary", new University(1, "Princeton"), subjects);
 
-    /*@Test
-    public void getStudentWithSubjectsTest() throws ServletException, IOException {
-        Subject s1 = new Subject(1, "Math");
-        Subject s2 = new Subject(2, "Art");
-        //Student student = new Student(1, "Adam", Arrays.asList(s1,s2));
-        List<Subject> subjects = Arrays.asList(s1,s2);
-        when(request.getParameter("student_id")).thenReturn("1");
-        when(studentRepository.getStudentWithSubjects(1)).thenReturn(subjects);
         when(request.getServletPath()).thenReturn("/student/get-subjects");
+        when(request.getParameter("student_id")).thenReturn("1");
+
+        when(studentRepository.getStudent(1)).thenReturn(student);
+        when(studentRepository.getSubjectsForStudent(1)).thenReturn(subjects);
+
         studentServlet.doGet(request, response);
 
-        //verify(studentRepository).getStudentWithSubjects(1);
-        //assertEquals("Adam: \r\nMath, Art, ", writer.toString());
-        assertEquals("Math, Art, ", writer.toString());
+        verify(studentRepository).getSubjectsForStudent(1);
+        Assertions.assertEquals("Mary: \r\nMaths, History, ", writer.toString());
+    }
 
-    }*/
+    @Test
+    public void deleteCategoryForBookTest() throws ServletException, IOException {
+        List<Subject> subjects = Arrays.asList(
+                new Subject(1, "Maths"),
+                new Subject(2, "History"));
+
+        Student student = new Student(1, "Mary", new University(1, "Princeton"), subjects);
+        when(request.getParameter("student_id")).thenReturn("1");
+        when(request.getParameter("subject_id")).thenReturn("2");
+        when(studentRepository.getStudent(1)).thenReturn(student);
+        when(studentRepository.getSubjectsForStudent(1)).thenReturn(subjects);
+        when(subjectRepository.getSubject(2)).thenReturn(subjects.get(1));
+        when(request.getServletPath()).thenReturn("/student/delete-subject");
+
+        studentServlet.doGet(request, response);
+
+        verify(studentRepository).deleteSubjectForStudent(student, subjects.get(1));
+        verify(response).sendRedirect("/Success.jsp");
+
+    }
 
 }

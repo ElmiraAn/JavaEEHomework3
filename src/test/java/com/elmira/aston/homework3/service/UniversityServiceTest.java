@@ -14,13 +14,12 @@ public class UniversityServiceTest {
     private UniversityRepository repository;
 
     @BeforeEach
-    void beforeEach(){
+    void beforeEach() {
         repository = new UniversityService("h2");
         String DB_URL = "jdbc:h2:./db/uni;INIT=runscript from 'src/test/resources/create_tables_h2.sql'";
-        //String DB_URL = "jdbc:h2:./db/uni;INIT=runscript from 'src/test/resources/db_h2.sql'";
         String DB_USER = "sa";
         String DB_PASSWORD = "";
-        String DRIVER="org.h2.Driver";
+        String DRIVER = "org.h2.Driver";
         Connection connection = null;
         try {
             Class.forName(DRIVER);
@@ -57,7 +56,7 @@ public class UniversityServiceTest {
     public void deleteUniversity() {
         beforeEach();
         repository.deleteUniversity(Cambridge.getId());
-        Assert.assertEquals(UNIVERSITIES.size()-1, repository.getAllUniversities().size());
+        Assert.assertEquals(UNIVERSITIES.size() - 1, repository.getAllUniversities().size());
     }
 
     @Test
@@ -73,7 +72,7 @@ public class UniversityServiceTest {
         beforeEach();
         University university = repository.getUniversityWithStudents(3);
         List<Student> students = university.getStudents();
-        for (Student student:students) {
+        for (Student student : students) {
             System.out.println(student.getName());
         }
         Assert.assertEquals(2, repository.getUniversityWithStudents(3).getStudents().size());

@@ -1,15 +1,13 @@
 package com.elmira.aston.homework3.service;
 
-import com.elmira.aston.homework3.model.Student;
-import com.elmira.aston.homework3.model.Subject;
+import com.elmira.aston.homework3.model.*;
 import com.elmira.aston.homework3.repository.StudentRepository;
 import com.elmira.aston.homework3.repository.SubjectRepository;
+
 import org.junit.Assert;
-import org.junit.Test;
-import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.*;
 
 import java.sql.*;
-import java.util.ArrayList;
 import java.util.List;
 
 import static com.elmira.aston.homework3.data.StudentDataTest.*;
@@ -25,7 +23,6 @@ public class StudentServiceTest {
         studentRepository = new StudentService("h2");
         subjectRepository = new SubjectService("h2");
         String DB_URL = "jdbc:h2:./db/uni;INIT=runscript from 'src/test/resources/create_tables_h2.sql'";
-        //String DB_URL = "jdbc:h2:./db/uni;INIT=runscript from 'src/test/resources/db_h2.sql'";
         String DB_USER = "sa";
         String DB_PASSWORD = "";
         String DRIVER = "org.h2.Driver";
@@ -110,28 +107,7 @@ public class StudentServiceTest {
         List<Subject> subjects = studentRepository.getSubjectsForStudent(1);
         Subject subject = subjectRepository.getSubject(1);
         Student student = studentRepository.getStudent(1);
-        studentRepository.deleteCategoryForBook(student, subject);
+        studentRepository.deleteSubjectForStudent(student, subject);
         Assert.assertEquals(1, studentRepository.getSubjectsForStudent(1).size());
-
     }
-
-    /*@Test
-    public void getStudentWithSubjects() {
-        beforeEach();
-        Student student = studentRepository.getStudentWithSubjects(1);
-
-        Assert.assertEquals(subjectsForStudent_1.size(), student.getSubjects().size());
-        Assert.assertEquals(MATHS.getName(), student.getSubjects().get(0).getName());
-
-    }*/
-
-    /*@Test
-    public void getStudentWithSubjects() {
-        beforeEach();
-        List<Subject> subjects = studentRepository.getStudentWithSubjects(1);
-
-        Assert.assertEquals(subjectsForStudent_1.size(), subjects.size());
-        Assert.assertEquals(MATHS.getName(), subjects.get(0).getName());
-
-    }*/
 }

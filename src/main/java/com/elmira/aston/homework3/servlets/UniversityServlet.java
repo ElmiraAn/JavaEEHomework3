@@ -1,25 +1,19 @@
 package com.elmira.aston.homework3.servlets;
 
-import com.elmira.aston.homework3.model.Student;
-import com.elmira.aston.homework3.model.University;
+import com.elmira.aston.homework3.model.*;
 import com.elmira.aston.homework3.repository.UniversityRepository;
 import com.elmira.aston.homework3.service.UniversityService;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.List;
-import java.util.Objects;
+import javax.servlet.http.*;
+import java.io.*;
+import java.util.*;
 
 @WebServlet(urlPatterns = {"/university/add", "/university/update", "/university/delete",
         "/university/get-all", "/university/get", "/university/get-with-students"})
 
 public class UniversityServlet extends HttpServlet {
-
     private UniversityRepository universityRepository;
 
     public UniversityServlet() {
@@ -136,6 +130,5 @@ public class UniversityServlet extends HttpServlet {
         String paramId = Objects.requireNonNull(request.getParameter("university_id"));
         return Integer.parseInt(paramId);
     }
-
 
 }
