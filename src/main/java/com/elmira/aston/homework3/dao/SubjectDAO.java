@@ -1,14 +1,14 @@
-package com.elmira.aston.homework3.repository;
+package com.elmira.aston.homework3.dao;
 
 import com.elmira.aston.homework3.model.Subject;
 
 import java.util.List;
 
-public interface SubjectRepository {
+public interface SubjectDAO {
 
     void addSubject(Subject subject);
 
-    Subject getSubject(int id);
+    Subject getSubjectById(int id);
 
     List<Subject> getAllSubjects();
 
@@ -16,7 +16,5 @@ public interface SubjectRepository {
 
     void updateSubject(Subject subject);
 
-    Subject getSubjectWithStudent(int id);
-
-
+    //Subject getSubjectWithStudent(int id);
 }

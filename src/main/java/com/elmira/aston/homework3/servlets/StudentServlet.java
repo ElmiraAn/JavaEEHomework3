@@ -2,41 +2,46 @@ package com.elmira.aston.homework3.servlets;
 
 import com.elmira.aston.homework3.model.*;
 import com.elmira.aston.homework3.repository.*;
-import com.elmira.aston.homework3.service.*;
+import com.elmira.aston.homework3.service.StudentServiceImpl;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.*;
 import java.io.*;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @WebServlet(urlPatterns = {"/student/add", "/student/update", "/student/delete",
-        "/student/get-all", "/student/get", "/student/get-with-uni",
-        "/student/get-subjects", "/student/add-subject", "/student/delete-subject"})
+        "/student/get-all", "/student/get"/*, "/student/get-with-uni",
+        "/student/get-subjects", "/student/add-subject", "/student/delete-subject"*/})
 public class StudentServlet extends HttpServlet {
-    private StudentRepository studentRepository;
-    private UniversityRepository universityRepository;
-    private SubjectRepository subjectRepository;
+    private StudentService studentService;
+    private ObjectMapper mapper;
+    //private UniversityService universityService;
+    //private SubjectService subjectService;
+
 
     public StudentServlet() {
+        this.studentService = new StudentServiceImpl();
+        this.mapper = new ObjectMapper();
     }
 
-    public StudentServlet(StudentRepository studentRepository, UniversityRepository universityRepository) {
-        this.studentRepository = studentRepository;
-        this.universityRepository = universityRepository;
+    public StudentServlet(StudentService studentService, UniversityService universityService) {
+        this.studentService = studentService;
+        this.mapper = new ObjectMapper();
+        //this.universityService = universityService;
     }
 
-    public StudentServlet(StudentRepository studentRepository, UniversityRepository universityRepository, SubjectRepository subjectRepository) {
-        this.studentRepository = studentRepository;
-        this.universityRepository = universityRepository;
-        this.subjectRepository = subjectRepository;
-    }
+    /*public StudentServlet(StudentService studentService, UniversityService universityService, SubjectService subjectService) {
+        this.studentService = studentService;
+        this.universityService = universityService;
+        this.subjectService = subjectService;
+    }*/
 
     @Override
     public void init() throws ServletException {
-        this.studentRepository = new StudentService("mysql");
-        this.universityRepository = new UniversityService("mysql");
-        this.subjectRepository = new SubjectService("mysql");
+        super.init();
     }
 
     @Override
@@ -44,22 +49,17 @@ public class StudentServlet extends HttpServlet {
         String action = request.getServletPath();
 
         switch (action) {
-            case "/student/add":
-                addStudent(request, response);
-                break;
             case "/student/delete":
                 deleteStudent(request, response);
                 break;
             case "/student/get":
-                showStudent(request, response);
-                break;
-            case "/student/update":
-                updateStudent(request, response);
+                getStudent(request, response);
                 break;
             case "/student/get-all":
-                showAllStudents(request, response);
+            default:
+                getAllStudents(request, response);
                 break;
-            case "/student/get-subjects":
+           /* case "/student/get-subjects":
                 getSubjectsForStudent(request, response);
                 break;
             case "/student/add-subject":
@@ -69,74 +69,125 @@ public class StudentServlet extends HttpServlet {
                 deleteSubjectForStudent(request, response);
                 break;
             default:
-                allStudentsWithUni(request, response);
+                allStudentsWithUni(request, response);*/
         }
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        doGet(request, response);
+        String action = request.getServletPath();
+        switch (action) {
+            case "/student/add":
+                addStudent(request, response);
+                break;
+            case "/student/update":
+                updateStudent(request, response);
+                break;
+        }
     }
 
-    private void addStudent(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        Student student = null;
+    private void addStudent(HttpServletRequest request, HttpServletResponse response) {
+        /*Student student = null;
         String studentName = request.getParameter("student_name");
         int uniId = Integer.parseInt(request.getParameter("university_id"));
-        University university = universityRepository.getUniversity(uniId);
+        University university = universityService.getUniversity(uniId);
         student = new Student(studentName, university);
-        studentRepository.addStudent(student, uniId);
-        response.sendRedirect("/Success.jsp");
+        studentService.addStudent(student, uniId);
+        response.sendRedirect("/Success.jsp");*/
+
+        try {
+            request.setCharacterEncoding("UTF-8");
+            response.setCharacterEncoding("UTF-8");
+            String body = request.getReader().lines().collect(Collectors.joining(System.lineSeparator()));
+            Student student = mapper.readValue(body, Student.class);
+            University university = student.getUniversity();
+            studentService.addStudent(student, university.getId());
+            response.setStatus(HttpServletResponse.SC_OK);
+        } catch (IOException e) {
+            e.printStackTrace();
+            throw new RuntimeException();
+        }
     }
 
-    private void updateStudent(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        int id = getValidId(request);
+    private void updateStudent(HttpServletRequest request, HttpServletResponse response) {
+        /*int id = getValidId(request);
         int uniId = Integer.parseInt(request.getParameter("university_id"));
-        University university = universityRepository.getUniversity(uniId);
+        University university = universityService.getUniversity(uniId);
         String name = request.getParameter("student_name");
         Student student = new Student(id, name, university);
-        studentRepository.updateStudent(student);
-        response.sendRedirect("/Success.jsp");
-    }
+        studentService.updateStudent(student);
+        response.sendRedirect("/Success.jsp");*/
 
-    private void deleteStudent(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        int id = getValidId(request);
-        studentRepository.deleteStudent(id);
-        response.sendRedirect("/Success.jsp");
-    }
-
-    private void showStudent(HttpServletRequest request, HttpServletResponse response) {
         try {
             request.setCharacterEncoding("UTF-8");
             response.setCharacterEncoding("UTF-8");
-            response.setContentType("text/html");
+            String body = request.getReader().lines().collect(Collectors.joining(System.lineSeparator()));
+            Student student = mapper.readValue(body, Student.class);
+            studentService.updateStudent(student);
+            response.setStatus(HttpServletResponse.SC_OK);
+        } catch (IOException e) {
+            e.printStackTrace();
+            throw new RuntimeException();
+        }
+    }
+
+    private void deleteStudent(HttpServletRequest request, HttpServletResponse response) {
+       /* int id = getValidId(request);
+        studentService.deleteStudent(id);
+        response.sendRedirect("/Success.jsp");*/
+
+        try {
+            request.setCharacterEncoding("UTF-8");
+            int id = Integer.parseInt(request.getParameter("student_id"));
+            studentService.deleteStudent(id);
+            response.setStatus(HttpServletResponse.SC_NO_CONTENT);
+        } catch (IOException e) {
+            e.printStackTrace();
+            throw new RuntimeException();
+        }
+    }
+
+    private void getStudent(HttpServletRequest request, HttpServletResponse response) {
+        try {
+            request.setCharacterEncoding("UTF-8");
+            response.setCharacterEncoding("UTF-8");
+            response.setContentType("application/json");
+
+            int id = Integer.parseInt(request.getParameter("student_id"));
+            String str = mapper.writeValueAsString(studentService.getStudent(id));
             PrintWriter pw = response.getWriter();
-            pw.println("Student: " + studentRepository.getStudent(getValidId(request)).getName() + "  - University: " +
-                    studentRepository.getStudent(getValidId(request)).getUniversity().getName());
+
+            /*pw.println("Student: " + studentService.getStudent(getValidId(request)).getName() + "  - University: " +
+                    studentService.getStudent(getValidId(request)).getUniversity().getName());*/
+            pw.print(str);
             pw.close();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
 
-    private void showAllStudents(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        List<Student> students = studentRepository.getAllStudents();
+    private void getAllStudents(HttpServletRequest request, HttpServletResponse response) {
 
         try {
             request.setCharacterEncoding("UTF-8");
             response.setCharacterEncoding("UTF-8");
-            response.setContentType("text/html");
+            response.setContentType("application/json");
+
+            List<Student> students = studentService.getAllStudents();
+            String str = mapper.writeValueAsString(students);
             PrintWriter pw = response.getWriter();
-            for (Student student : students) {
+            /*for (Student student : students) {
                 pw.print(student.getName() + " | ");
-            }
+            }*/
+            pw.print(str);
             pw.close();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
 
-    private void allStudentsWithUni(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        List<Student> students = studentRepository.getAllStudentsWithUniversity();
+    /*private void allStudentsWithUni(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        List<Student> students = studentService.getAllStudentsWithUniversity();
 
         request.setAttribute("students", students);
         try {
@@ -156,17 +207,17 @@ public class StudentServlet extends HttpServlet {
     private void addSubjectForStudent(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         int studentId = Integer.parseInt(request.getParameter("student_id"));
         int subjectId = Integer.parseInt(request.getParameter("subject_id"));
-        Student student = studentRepository.getStudent(studentId);
-        Subject subject = subjectRepository.getSubject(subjectId);
-        studentRepository.addSubjectForStudent(student, subject);
+        Student student = studentService.getStudent(studentId);
+        Subject subject = subjectService.getSubject(subjectId);
+        studentService.addSubjectForStudent(student, subject);
         response.sendRedirect("/Success.jsp");
     }
 
     private void getSubjectsForStudent(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         List<Subject> subjects = new ArrayList<>();
         int studentId = getValidId(request);
-        Student student = studentRepository.getStudent(studentId);
-        subjects = studentRepository.getSubjectsForStudent(studentId);
+        Student student = studentService.getStudent(studentId);
+        subjects = studentService.getSubjectsForStudent(studentId);
         try {
             request.setCharacterEncoding("UTF-8");
             response.setCharacterEncoding("UTF-8");
@@ -185,9 +236,9 @@ public class StudentServlet extends HttpServlet {
     private void deleteSubjectForStudent(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         int studentId = Integer.parseInt(request.getParameter("student_id"));
         int subjectId = Integer.parseInt(request.getParameter("subject_id"));
-        Student student = studentRepository.getStudent(studentId);
-        Subject subject = subjectRepository.getSubject(subjectId);
-        studentRepository.deleteSubjectForStudent(student, subject);
+        Student student = studentService.getStudent(studentId);
+        Subject subject = subjectService.getSubject(subjectId);
+        studentService.deleteSubjectForStudent(student, subject);
 
         response.sendRedirect("/Success.jsp");
     }
@@ -195,6 +246,6 @@ public class StudentServlet extends HttpServlet {
     private int getValidId(HttpServletRequest request) {
         String paramId = Objects.requireNonNull(request.getParameter("student_id"));
         return Integer.parseInt(paramId);
-    }
+    }*/
 
 }

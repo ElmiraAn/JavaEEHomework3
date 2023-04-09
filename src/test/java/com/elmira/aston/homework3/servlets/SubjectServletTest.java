@@ -14,7 +14,7 @@ import static org.mockito.Mockito.*;
 
 public class SubjectServletTest {
 
-    private SubjectRepository subjectRepository;
+    private SubjectService subjectService;
     private SubjectServlet subjectServlet;
     private HttpServletRequest request;
     private HttpServletResponse response;
@@ -22,8 +22,8 @@ public class SubjectServletTest {
 
     @BeforeEach
     public void setUp() throws IOException {
-        subjectRepository = mock(SubjectRepository.class);
-        subjectServlet = new SubjectServlet(subjectRepository);
+        subjectService = mock(SubjectService.class);
+        subjectServlet = new SubjectServlet(subjectService);
         request = mock(HttpServletRequest.class);
         response = mock(HttpServletResponse.class);
         writer = new StringWriter();
@@ -37,10 +37,10 @@ public class SubjectServletTest {
                 new Subject(1, "Maths"),
                 new Subject(2, "History")
         );
-        when(subjectRepository.getAllSubjects()).thenReturn(subjects);
+        when(subjectService.getAllSubjects()).thenReturn(subjects);
         when(request.getServletPath()).thenReturn("/subject/get-all");
         subjectServlet.doGet(request, response);
-        verify(subjectRepository).getAllSubjects();
+        verify(subjectService).getAllSubjects();
         assertEquals("Maths|\r\nHistory|\r\n", writer.toString());
     }
 
@@ -51,7 +51,7 @@ public class SubjectServletTest {
         when(request.getServletPath()).thenReturn("/subject/add");
 
         subjectServlet.doGet(request, response);
-        verify(subjectRepository).addSubject(new Subject("Art"));
+        verify(subjectService).addSubject(new Subject("Art"));
         verify(response).sendRedirect("/Success.jsp");
     }
     @Test
@@ -63,7 +63,7 @@ public class SubjectServletTest {
 
         subjectServlet.doGet(request, response);
 
-        verify(subjectRepository).updateSubject(new Subject(1, "History"));
+        verify(subjectService).updateSubject(new Subject(1, "History"));
         verify(response).sendRedirect("/Success.jsp");
     }
 
@@ -75,20 +75,20 @@ public class SubjectServletTest {
 
         subjectServlet.doGet(request, response);
 
-        verify(subjectRepository).deleteSubject(1);
+        verify(subjectService).deleteSubject(1);
         verify(response).sendRedirect("/Success.jsp");
     }
     @Test
     public void showSubjectTest() throws ServletException, IOException {
 
         Subject subject = new Subject(1, "Maths");
-        when(subjectRepository.getSubject(1)).thenReturn(subject);
+        when(subjectService.getSubject(1)).thenReturn(subject);
         when(request.getParameter("subject_id")).thenReturn("1");
         when(request.getServletPath()).thenReturn("/subject/get");
 
         subjectServlet.doGet(request, response);
 
-        verify(subjectRepository).getSubject(1);
+        verify(subjectService).getSubject(1);
         assertEquals("Maths\r\n", writer.toString());
     }
     @Test
@@ -99,11 +99,11 @@ public class SubjectServletTest {
         Subject subject = new Subject(1, "Maths", Arrays.asList(s1,s2));
 
         when(request.getParameter("subject_id")).thenReturn("1");
-        when(subjectRepository.getSubjectWithStudent(1)).thenReturn(subject);
+        when(subjectService.getSubjectWithStudent(1)).thenReturn(subject);
         when(request.getServletPath()).thenReturn("/subject/get-with-students");
         subjectServlet.doGet(request, response);
 
-        verify(subjectRepository).getSubjectWithStudent(1);
+        verify(subjectService).getSubjectWithStudent(1);
         assertEquals("Maths: \r\nBob, Mary, ", writer.toString());
 
     }

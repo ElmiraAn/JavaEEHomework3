@@ -1,25 +1,51 @@
 package com.elmira.aston.homework3.service;
 
+import com.elmira.aston.homework3.dao.StudentDAO;
 import com.elmira.aston.homework3.model.Student;
-import com.elmira.aston.homework3.model.Subject;
-import com.elmira.aston.homework3.model.University;
-import com.elmira.aston.homework3.repository.StudentRepository;
+import com.elmira.aston.homework3.repository.StudentService;
 
-import java.sql.*;
-import java.util.ArrayList;
 import java.util.List;
 
-public class StudentService implements StudentRepository {
+public class StudentServiceImpl implements StudentService {
 
-    private String JDBC_URL;
+    StudentDAO studentDAO;
+
+    @Override
+    public void addStudent(Student student, int universityId) {
+        studentDAO.addStudent(student, universityId);
+    }
+
+    @Override
+    public Student getStudent(int id) {
+        return studentDAO.getStudentById(id);
+    }
+
+    @Override
+    public void deleteStudent(int id) {
+        studentDAO.deleteStudent(id);
+    }
+
+    @Override
+    public void updateStudent(Student student) {
+        studentDAO.updateStudent(student);
+    }
+
+    @Override
+    public List<Student> getAllStudents() {
+        return null;
+    }
+
+
+
+   /* private String JDBC_URL;
     private String USERNAME;
     private String PASSWORD;
     private String DRIVER;
 
-    public StudentService() {
+    public StudentServiceImpl() {
     }
 
-    public StudentService(String database) {
+    public StudentServiceImpl(String database) {
         if (database.equals("mysql")) {
             JDBC_URL = "jdbc:mysql://localhost:3306/aston_db";
             USERNAME = "bestuser";
@@ -193,8 +219,9 @@ public class StudentService implements StudentRepository {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-    }
+    }*/
 
+    //Лишний метод
     /*@Override
     public Student getStudentWithSubjects(int id) {
         Student studentWithSubjects = null;

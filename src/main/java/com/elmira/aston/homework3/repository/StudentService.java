@@ -1,11 +1,10 @@
 package com.elmira.aston.homework3.repository;
 
 import com.elmira.aston.homework3.model.Student;
-import com.elmira.aston.homework3.model.Subject;
 
 import java.util.List;
 
-public interface StudentRepository {
+public interface StudentService {
 
     void addStudent(Student student, int universityId);
 
@@ -17,12 +16,12 @@ public interface StudentRepository {
 
     List<Student> getAllStudents();
 
-    List<Student> getAllStudentsWithUniversity();
+    //List<Student> getAllStudentsWithUniversity();
 
-    void addSubjectForStudent(Student student, Subject subject);
+   // void addSubjectForStudent(Student student, Subject subject);
 
-    List<Subject> getSubjectsForStudent(int studentId);
+    //List<Subject> getSubjectsForStudent(int studentId);
 
-    void deleteSubjectForStudent(Student student, Subject subject);
+    //void deleteSubjectForStudent(Student student, Subject subject);
 
 }

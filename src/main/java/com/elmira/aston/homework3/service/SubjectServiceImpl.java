@@ -1,26 +1,49 @@
 package com.elmira.aston.homework3.service;
 
-import com.elmira.aston.homework3.model.Student;
-import com.elmira.aston.homework3.model.University;
-import com.elmira.aston.homework3.repository.UniversityRepository;
+import com.elmira.aston.homework3.dao.SubjectDAO;
+import com.elmira.aston.homework3.model.Subject;
+import com.elmira.aston.homework3.repository.SubjectService;
 
-import java.sql.*;
-import java.util.ArrayList;
 import java.util.List;
 
-public class UniversityService implements UniversityRepository {
+public class SubjectServiceImpl implements SubjectService {
 
-    private String JDBC_URL;
+    SubjectDAO subjectDAO;
+
+    @Override
+    public void addSubject(Subject subject) {
+        subjectDAO.addSubject(subject);
+    }
+
+    @Override
+    public Subject getSubject(int id) {
+        return subjectDAO.getSubjectById(id);
+    }
+
+    @Override
+    public List<Subject> getAllSubjects() {
+        return subjectDAO.getAllSubjects();
+    }
+
+    @Override
+    public void deleteSubject(int id) {
+        subjectDAO.deleteSubject(id);
+    }
+
+    @Override
+    public void updateSubject(Subject subject) {
+        subjectDAO.updateSubject(subject);
+    }
+
+    /*private String JDBC_URL;
     private String USERNAME;
     private String PASSWORD;
     private String DRIVER;
 
-    public Connection connection;
-
-    public UniversityService() {
+    public SubjectServiceImpl() {
     }
 
-    public UniversityService(String database) {
+    public SubjectServiceImpl(String database) {
         if (database.equals("mysql")) {
             JDBC_URL = "jdbc:mysql://localhost:3306/aston_db";
             USERNAME = "bestuser";
@@ -46,97 +69,104 @@ public class UniversityService implements UniversityRepository {
         return connection;
     }
 
-    public void addUniversity(University university) {
+    @Override
+    public void addSubject(Subject subject) {
         try (Connection connection = getConnection();
              PreparedStatement ps = connection.prepareStatement(
-                     "INSERT INTO  universities (university_name) VALUES (?)")) {
-            ps.setString(1, university.getName());
+                     "INSERT INTO subjects (subject_name) VALUES  (?)")) {
+            ps.setString(1, subject.getName());
             ps.executeUpdate();
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException();
         }
-
     }
 
-    public University getUniversity(int id) {
-        University university = null;
+    @Override
+    public Subject getSubject(int id) {
+        Subject subject = null;
         try (Connection connection = getConnection();
              PreparedStatement ps = connection.prepareStatement(
-                     "SELECT universities.university_name FROM universities WHERE universities.university_id=?")) {
+                     "SELECT sub.subject_name FROM subjects sub WHERE sub.subject_id=?")) {
             ps.setInt(1, id);
             ResultSet rs = ps.executeQuery();
+
             while (rs.next()) {
-                String name = rs.getString("university_name");
-                university = new University(id, name);
+                String name = rs.getString("subject_name");
+                subject = new Subject(id, name);
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-        return university;
+        return subject;
     }
 
-    public List<University> getAllUniversities() {
-        List<University> universities = new ArrayList<>();
+    @Override
+    public List<Subject> getAllSubjects() {
+        List<Subject> subjects = new ArrayList<>();
         try (Connection connection = getConnection();
              PreparedStatement ps = connection.prepareStatement(
-                     "SELECT u.university_id, u.university_name FROM universities u")) {
+                     "SELECT sub.subject_id, sub.subject_name FROM subjects sub")) {
             ResultSet rs = ps.executeQuery();
 
             while (rs.next()) {
-                int id = rs.getInt("university_id");//!!!!!!!!!!!!!1
-                String name = rs.getString("university_name");
-                universities.add(new University(id, name));
+                int id = rs.getInt("subject_id");
+                String name = rs.getString("subject_name");
+                subjects.add(new Subject(id, name));
             }
+
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-        return universities;
+        return subjects;
     }
 
-    public void deleteUniversity(int id) {
+    @Override
+    public void deleteSubject(int id) {
         try (Connection connection = getConnection();
              PreparedStatement ps = connection.prepareStatement(
-                     "DELETE FROM universities u WHERE u.university_id=?")) {
+                     "DELETE FROM subjects WHERE subject_id=?")) {
             ps.setInt(1, id);
             ps.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-
     }
 
-    public void updateUniversity(University university) {
+    @Override
+    public void updateSubject(Subject subject) {
         try (Connection connection = getConnection();
              PreparedStatement ps = connection.prepareStatement(
-                     "UPDATE universities u SET u.university_name=? WHERE u.university_id=?")) {
-            ps.setString(1, university.getName());
-            ps.setInt(2, university.getId());
+                     "UPDATE subjects SET subject_name=? WHERE subject_id=?")) {
+            ps.setString(1, subject.getName());
+            ps.setInt(2, subject.getId());
             ps.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
     }
 
-    public University getUniversityWithStudents(int id) {
-        University universityWithStudents = null;
+    @Override
+    public Subject getSubjectWithStudent(int id) {
         List<Student> students = new ArrayList<>();
+        Subject subject = null;
         try (Connection connection = getConnection();
              PreparedStatement ps = connection.prepareStatement(
-                     "SELECT u.university_name, s.student_id, s.student_name FROM universities u " +
-                             "JOIN students s on u.university_id = s.university_id WHERE s.university_id=?")) {
+                     "SELECT sub.subject_name, s.student_name FROM subjects sub " +
+                             "JOIN student_subject ss on sub.subject_id = ss.subject_id " +
+                             "JOIN students s on s.student_id = ss.student_id WHERE ss.subject_id=?")) {
             ps.setInt(1, id);
             ResultSet rs = ps.executeQuery();
 
             while (rs.next()) {
-                String uniName = rs.getString("university_name");
-                int studentId = rs.getInt("student_id");
+                String name = rs.getString("subject_name");
                 String studentName = rs.getString("student_name");
-                students.add(new Student(studentId, studentName));
-                universityWithStudents = new University(id, uniName, students);
+                students.add(new Student(studentName));
+                subject = new Subject(id, name);
+                subject.setStudents(students);
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-        return universityWithStudents;
-    }
+        return subject;
+    }*/
 }

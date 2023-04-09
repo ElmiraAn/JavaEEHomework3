@@ -1,7 +1,7 @@
 package com.elmira.aston.homework3.servlets;
 
 import com.elmira.aston.homework3.model.*;
-import com.elmira.aston.homework3.repository.UniversityRepository;
+import com.elmira.aston.homework3.repository.UniversityService;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -17,15 +17,15 @@ import static org.mockito.Mockito.*;
 
 public class UniversityServletTest {
 
-    private UniversityRepository universityRepository;
+    private UniversityService universityService;
     private UniversityServlet universityServlet;
     private HttpServletRequest request;
     private HttpServletResponse response;
     private StringWriter writer ;
     @BeforeEach
     public void setUp() throws IOException {
-        universityRepository = mock(UniversityRepository.class);
-        universityServlet = new UniversityServlet(universityRepository);
+        universityService = mock(UniversityService.class);
+        universityServlet = new UniversityServlet(universityService);
         request = mock(HttpServletRequest.class);
         response = mock(HttpServletResponse.class);
         writer = new StringWriter();
@@ -38,7 +38,7 @@ public class UniversityServletTest {
                 new University(1, "Oxford"),
                 new University(2, "Yale")
         );
-        when(universityRepository.getAllUniversities()).thenReturn(allUniversities);
+        when(universityService.getAllUniversities()).thenReturn(allUniversities);
         when(request.getServletPath()).thenReturn("/university/get-all");
         universityServlet.doGet(request, response);
         Assertions.assertEquals("Oxford|\r\nYale|\r\n", writer.toString());
@@ -50,7 +50,7 @@ public class UniversityServletTest {
         when(request.getServletPath()).thenReturn("/university/add");
 
         universityServlet.doGet(request, response);
-        verify(universityRepository).addUniversity(new University("Harvard"));
+        verify(universityService).addUniversity(new University("Harvard"));
         verify(response).sendRedirect("/Success.jsp");
     }
 
@@ -62,7 +62,7 @@ public class UniversityServletTest {
 
         universityServlet.doGet(request, response);
 
-        verify(universityRepository).updateUniversity(new University(2, "Princeton"));
+        verify(universityService).updateUniversity(new University(2, "Princeton"));
         verify(response).sendRedirect("/Success.jsp");
     }
 
@@ -73,7 +73,7 @@ public class UniversityServletTest {
 
         universityServlet.doGet(request, response);
 
-        verify(universityRepository).deleteUniversity(2);
+        verify(universityService).deleteUniversity(2);
         verify(response).sendRedirect("/Success.jsp");
     }
 
@@ -81,7 +81,7 @@ public class UniversityServletTest {
     public void showUniversityTest() throws ServletException, IOException {
         University uni = new University(1, "Princeton");
 
-        when(universityRepository.getUniversity(1)).thenReturn(uni);
+        when(universityService.getUniversity(1)).thenReturn(uni);
         when(request.getServletPath()).thenReturn("/university/get");
         when(request.getParameter("university_id")).thenReturn("1");
         universityServlet.doGet(request, response);
@@ -95,7 +95,7 @@ public class UniversityServletTest {
         Student s3 = new Student(3, "Helen");
         University uni = new University(1, "Princeton", Arrays.asList(s1,s2,s3));
 
-        when(universityRepository.getUniversityWithStudents(1)).thenReturn(uni);
+        when(universityService.getUniversityWithStudents(1)).thenReturn(uni);
         when(request.getServletPath()).thenReturn("/university/get-with-students");
         when(request.getParameter("university_id")).thenReturn("1");
 

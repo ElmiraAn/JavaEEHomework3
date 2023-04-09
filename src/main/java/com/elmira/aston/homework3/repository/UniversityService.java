@@ -4,17 +4,16 @@ import com.elmira.aston.homework3.model.University;
 
 import java.util.List;
 
-public interface UniversityRepository {
-
-    void addUniversity(University university);
+public interface UniversityService {
 
     University getUniversity(int id);
-
     List<University> getAllUniversities();
+
+    void addUniversity(University university);
 
     void deleteUniversity(int id);
 
     void updateUniversity(University university);
 
-    University getUniversityWithStudents(int id);
+    //University getUniversityWithStudents(int id);
 }

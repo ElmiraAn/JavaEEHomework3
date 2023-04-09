@@ -1,7 +1,8 @@
 package com.elmira.aston.homework3.service;
 
+import com.elmira.aston.homework3.dao.UniversityDAO;
 import com.elmira.aston.homework3.model.*;
-import com.elmira.aston.homework3.repository.UniversityRepository;
+import com.elmira.aston.homework3.repository.UniversityService;
 import org.junit.*;
 import org.junit.jupiter.api.BeforeEach;
 
@@ -9,13 +10,16 @@ import java.sql.*;
 import java.util.*;
 
 import static com.elmira.aston.homework3.data.UniversityDataTest.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
 
-public class UniversityServiceTest {
-    private UniversityRepository repository;
+public class UniversityServiceImplTest {
+    private UniversityService service;
+    private UniversityDAO universityDAO;
 
     @BeforeEach
-    void beforeEach() {
-        repository = new UniversityService("h2");
+    void setUp() {
+        /*service = new UniversityServiceImpl("h2");
         String DB_URL = "jdbc:h2:./db/uni;INIT=runscript from 'src/test/resources/create_tables_h2.sql'";
         String DB_USER = "sa";
         String DB_PASSWORD = "";
@@ -27,54 +31,58 @@ public class UniversityServiceTest {
                     DB_USER, DB_PASSWORD);
         } catch (SQLException | ClassNotFoundException e) {
             throw new RuntimeException(e);
-        }
+        }*/
+        universityDAO = mock(UniversityDAO.class);
+        service = new UniversityServiceImpl(universityDAO);
+
     }
 
     @Test
     public void addUniversity() {
-        beforeEach();
+        //setUp();
         University university = new University("Yale");
-        repository.addUniversity(university);
-        Assert.assertEquals(Yale.getName(), repository.getUniversity(5).getName());
+        service.addUniversity(university);
+        verify(universityDAO).addUniversity(university);
+        //Assert.assertEquals(Yale.getName(), service.getUniversity(5).getName());
     }
 
     @Test
     public void getUniversity() {
-        beforeEach();
-        University university = repository.getUniversity(Harvard.getId());
+        //setUp();
+        University university = service.getUniversity(Harvard.getId());
         Assert.assertEquals(Harvard.getName(), university.getName());
     }
 
     @Test
     public void getAllUniversities() {
-        beforeEach();
-        List<University> allUniversities = this.repository.getAllUniversities();
+        setUp();
+        List<University> allUniversities = this.service.getAllUniversities();
         Assert.assertEquals(UNIVERSITIES.size(), allUniversities.size());
     }
 
     @Test
     public void deleteUniversity() {
-        beforeEach();
-        repository.deleteUniversity(Cambridge.getId());
-        Assert.assertEquals(UNIVERSITIES.size() - 1, repository.getAllUniversities().size());
+        setUp();
+        service.deleteUniversity(Cambridge.getId());
+        Assert.assertEquals(UNIVERSITIES.size() - 1, service.getAllUniversities().size());
     }
 
     @Test
     public void updateUniversity() {
-        beforeEach();
+        setUp();
         University university = new University(Oxford.getId(), "Oxford University");
-        repository.updateUniversity(university);
-        Assert.assertEquals("Oxford University", repository.getUniversity(Oxford.getId()).getName());
+        service.updateUniversity(university);
+        Assert.assertEquals("Oxford University", service.getUniversity(Oxford.getId()).getName());
     }
 
     @Test
     public void getUniversityWithStudents() {
-        beforeEach();
-        University university = repository.getUniversityWithStudents(3);
+        setUp();
+        University university = service.getUniversityWithStudents(3);
         List<Student> students = university.getStudents();
         for (Student student : students) {
             System.out.println(student.getName());
         }
-        Assert.assertEquals(2, repository.getUniversityWithStudents(3).getStudents().size());
+        Assert.assertEquals(2, service.getUniversityWithStudents(3).getStudents().size());
     }
 }
