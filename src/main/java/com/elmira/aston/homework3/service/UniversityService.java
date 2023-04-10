@@ -1,4 +1,4 @@
-package com.elmira.aston.homework3.repository;
+package com.elmira.aston.homework3.service;
 
 import com.elmira.aston.homework3.model.University;
 

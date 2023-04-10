@@ -3,7 +3,6 @@ package com.elmira.aston.homework3.service;
 import com.elmira.aston.homework3.dao.UniversityDAO;
 import com.elmira.aston.homework3.dao.UniversityDaoImpl;
 import com.elmira.aston.homework3.model.University;
-import com.elmira.aston.homework3.repository.UniversityService;
 
 import java.util.List;
 

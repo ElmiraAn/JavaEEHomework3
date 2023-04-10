@@ -1,14 +1,22 @@
 package com.elmira.aston.homework3.service;
 
 import com.elmira.aston.homework3.dao.SubjectDAO;
+import com.elmira.aston.homework3.dao.SubjectDaoImpl;
 import com.elmira.aston.homework3.model.Subject;
-import com.elmira.aston.homework3.repository.SubjectService;
 
 import java.util.List;
 
 public class SubjectServiceImpl implements SubjectService {
 
     SubjectDAO subjectDAO;
+
+    public SubjectServiceImpl() {
+        this.subjectDAO = new SubjectDaoImpl();
+    }
+
+    public SubjectServiceImpl(SubjectDAO subjectDAO) {
+        this.subjectDAO = subjectDAO;
+    }
 
     @Override
     public void addSubject(Subject subject) {

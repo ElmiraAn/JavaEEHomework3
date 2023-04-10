@@ -1,8 +1,9 @@
 package com.elmira.aston.homework3.servlets;
 
 import com.elmira.aston.homework3.model.*;
-import com.elmira.aston.homework3.repository.*;
+import com.elmira.aston.homework3.service.StudentService;
 import com.elmira.aston.homework3.service.StudentServiceImpl;
+import com.elmira.aston.homework3.service.UniversityService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import javax.servlet.ServletException;
@@ -27,7 +28,7 @@ public class StudentServlet extends HttpServlet {
         this.mapper = new ObjectMapper();
     }
 
-    public StudentServlet(StudentService studentService, UniversityService universityService) {
+    public StudentServlet(StudentService studentService) {
         this.studentService = studentService;
         this.mapper = new ObjectMapper();
         //this.universityService = universityService;

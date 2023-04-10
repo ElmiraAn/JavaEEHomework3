@@ -1,7 +1,7 @@
 package com.elmira.aston.homework3.servlets;
 
 import com.elmira.aston.homework3.model.*;
-import com.elmira.aston.homework3.repository.UniversityService;
+import com.elmira.aston.homework3.service.UniversityService;
 import com.elmira.aston.homework3.service.UniversityServiceImpl;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -136,8 +136,10 @@ public class UniversityServlet extends HttpServlet {
             response.setCharacterEncoding("UTF-8");
             response.setContentType("application/json");
             int id = Integer.parseInt(request.getParameter("university_id"));
+            String str = mapper.writeValueAsString(universityService.getUniversity(id));
+
             PrintWriter pw = response.getWriter();
-            pw.println(universityService.getUniversity(id));
+            pw.print(str);
             pw.close();
         } catch (IOException e) {
             throw new RuntimeException(e);

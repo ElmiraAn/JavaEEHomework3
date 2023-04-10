@@ -1,14 +1,22 @@
 package com.elmira.aston.homework3.service;
 
 import com.elmira.aston.homework3.dao.StudentDAO;
+import com.elmira.aston.homework3.dao.StudentDaoImpl;
 import com.elmira.aston.homework3.model.Student;
-import com.elmira.aston.homework3.repository.StudentService;
 
 import java.util.List;
 
 public class StudentServiceImpl implements StudentService {
 
     StudentDAO studentDAO;
+
+    public StudentServiceImpl() {
+        this.studentDAO = new StudentDaoImpl();
+    }
+
+    public StudentServiceImpl(StudentDAO studentDAO) {
+        this.studentDAO = studentDAO;
+    }
 
     @Override
     public void addStudent(Student student, int universityId) {
@@ -32,7 +40,7 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     public List<Student> getAllStudents() {
-        return null;
+        return studentDAO.getAllStudents();
     }
 
 

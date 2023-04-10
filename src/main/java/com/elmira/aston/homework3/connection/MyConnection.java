@@ -10,15 +10,16 @@ import java.util.Properties;
 public class MyConnection {
     private static Properties properties;
     private static volatile MyConnection INSTANCE;
-    private static String MYSQL="datasource.properties";
+    private static String MYSQL = "datasource.properties";
 
     public MyConnection() {
+        setProperties();
         connectDriver();
-        setProperties();
     }
+
     public MyConnection(String file) {
-        connectDriver(file);
-        setProperties();
+        setProperties(file);
+        connectDriver();
     }
 
     private void connectDriver() {
@@ -30,7 +31,7 @@ public class MyConnection {
         }
     }
 
-    private void connectDriver(String file) {
+    private void setProperties(String file) {
         try {
             properties = new Properties();
             InputStream inputStream = getClass().getClassLoader().getResourceAsStream(file);
@@ -38,7 +39,7 @@ public class MyConnection {
             inputStream.close();
         } catch (IOException | NullPointerException e) {
             e.printStackTrace();
-            throw new RuntimeException("check the driver");
+            throw new RuntimeException("check the properties");
         }
     }
 
@@ -73,16 +74,14 @@ public class MyConnection {
         return INSTANCE;
     }
 
-    public static MyConnection getInstance(String filename) {
+    public static MyConnection getInstance(String file) {
         if (INSTANCE == null) {
             synchronized (MyConnection.class) {
                 if (INSTANCE == null) {
-                    INSTANCE = new MyConnection(filename);
+                    INSTANCE = new MyConnection(file);
                 }
             }
         }
         return INSTANCE;
     }
-
-
 }

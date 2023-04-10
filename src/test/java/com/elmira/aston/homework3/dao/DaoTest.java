@@ -1,7 +1,6 @@
 package com.elmira.aston.homework3.dao;
 
 import org.junit.jupiter.api.BeforeEach;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.Connection;
@@ -26,6 +25,7 @@ public class DaoTest {
     }
 
     private void setStartProperties() throws IOException {
+
         properties = new Properties();
         InputStream inputStream = getClass().getClassLoader().getResourceAsStream(filename);
         properties.load(inputStream);
@@ -33,11 +33,11 @@ public class DaoTest {
     }
 
     private void prepareDB() throws SQLException {
-        String prepare = "jdbc:h2:./db/library;INIT=RUNSCRIPT FROM 'classpath:dbH2init.sql';DB_CLOSE_DELAY=-1";
+        String prepare = "jdbc:h2:./db/uni;INIT=runscript from 'src/test/resources/create_tables_h2.sql';DB_CLOSE_DELAY=-1";
         Connection connection = DriverManager.getConnection(
                 prepare,
-                properties.getProperty("datasource.username"),
-                properties.getProperty("datasource.password")
+                properties.getProperty("username"),
+                properties.getProperty("password")
         );
         connection.close();
     }

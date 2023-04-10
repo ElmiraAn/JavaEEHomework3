@@ -1,7 +1,7 @@
 package com.elmira.aston.homework3.servlets;
 
 import com.elmira.aston.homework3.model.*;
-import com.elmira.aston.homework3.repository.SubjectService;
+import com.elmira.aston.homework3.service.SubjectService;
 import com.elmira.aston.homework3.service.SubjectServiceImpl;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
