@@ -10,7 +10,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SubjectDaoImpl implements SubjectDAO{
+public class SubjectDaoImpl implements SubjectDAO {
     MyConnection connect;
 
     public SubjectDaoImpl() {

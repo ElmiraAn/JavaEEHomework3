@@ -7,9 +7,13 @@ import java.util.List;
 
 public interface StudentDAO {
     void addStudent(Student student, int universityId);
+
     Student getStudentById(int id);
+
     void deleteStudent(int id);
+
     void updateStudent(Student student);
+
     List<Student> getAllStudents();
 
     //List<Student> getAllStudentsWithUniversity();
@@ -18,6 +22,6 @@ public interface StudentDAO {
 
     //List<Subject> getSubjectsForStudent(int studentId);
 
-   // void deleteSubjectForStudent(Student student, Subject subject);
+    // void deleteSubjectForStudent(Student student, Subject subject);
 
 }

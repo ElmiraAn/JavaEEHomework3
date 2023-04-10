@@ -76,9 +76,6 @@ public class UniversityServlet extends HttpServlet {
             List<University> allUniversities = universityService.getAllUniversities();
             String str = mapper.writeValueAsString(allUniversities);
             PrintWriter pw = response.getWriter();
-            /*for (University university : allUniversities) {
-                pw.println(university.getName() + "|");
-            }*/
             pw.println(str);
             pw.close();
         } catch (IOException e) {
@@ -87,9 +84,6 @@ public class UniversityServlet extends HttpServlet {
     }
 
     private void addUniversity(HttpServletRequest request, HttpServletResponse response) {
-        /*University newUniversity = new University(request.getParameter("university_name"));
-        universityService.addUniversity(newUniversity);
-        response.sendRedirect("/Success.jsp");*/
         try {
             request.setCharacterEncoding("UTF-8");
             response.setCharacterEncoding("UTF-8");
@@ -115,12 +109,6 @@ public class UniversityServlet extends HttpServlet {
             e.printStackTrace();
             throw new RuntimeException();
         }
-
-        /*int id = getValidId(request);
-        String name = request.getParameter("university_name");
-        University uni = new University(id, name);
-        universityService.updateUniversity(uni);
-        response.sendRedirect("/Success.jsp");*/
     }
 
     private void deleteUniversity(HttpServletRequest request, HttpServletResponse response) throws IOException {

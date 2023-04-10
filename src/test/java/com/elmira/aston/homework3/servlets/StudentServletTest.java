@@ -18,26 +18,6 @@ import static org.mockito.Mockito.verify;
 
 public class StudentServletTest extends ServletTest{
 
-    /*private StudentService studentService;
-    private UniversityService universityService;
-    private SubjectService subjectService;
-    private StudentServlet studentServlet;
-    private HttpServletRequest request;
-    private HttpServletResponse response;
-    private StringWriter writer;
-
-    @BeforeEach
-    public void setUp() throws IOException {
-        universityService = mock(UniversityService.class);
-        subjectService = mock(SubjectService.class);
-        studentService = mock(StudentService.class);
-        studentServlet = new StudentServlet(studentService, universityService, subjectService);
-        request = mock(HttpServletRequest.class);
-        response = mock(HttpServletResponse.class);
-        writer = new StringWriter();
-        when(response.getWriter()).thenReturn(new PrintWriter(writer));
-    }*/
-
     /*@Test
     public void allStudentsWithUniTest() throws ServletException, IOException {
 
@@ -69,20 +49,7 @@ public class StudentServletTest extends ServletTest{
 
     @Test
     public void addStudentTest() throws IOException, ServletException {
-        /*University uni = new University(1, "Princeton");
-
-        when(universityService.getUniversity(1)).thenReturn(uni);
-        when(request.getParameter("student_name")).thenReturn("Mary");
-        when(request.getParameter("university_id")).thenReturn("1");
-        when(request.getServletPath()).thenReturn("/student/add");
-
-        studentServlet.doGet(request, response);
-        verify(universityService).getUniversity(1);
-        verify(studentService).addStudent(new Student("Mary"),1);
-        verify(response).sendRedirect("/Success.jsp");
-    */
         Student student = new Student(1, "Adam", new University(1, "Yale"));
-        //student.setName("New");
         String body = mapper.writeValueAsString(student);
         StringReader reader = new StringReader(body);
 
@@ -99,25 +66,11 @@ public class StudentServletTest extends ServletTest{
 
     @Test
     public void updateStudentTest() throws IOException, ServletException {
-        /*when(request.getServletPath()).thenReturn("/student/update");
-        when(request.getParameter("student_id")).thenReturn("1");
-        when(request.getParameter("student_name")).thenReturn("Peter");
-        when(request.getParameter("university_id")).thenReturn("1");
-
-        studentServlet.doGet(request, response);
-
-        verify(studentService).updateStudent(new Student(1, "Peter", new University(1, "Princeton")));
-        verify(response).sendRedirect("/Success.jsp");
-    */
         Student student = new Student(1, "Adam", new University(1, "Yale"));
 
         student.setName("Amanda");
         String body = mapper.writeValueAsString(student);
         StringReader reader = new StringReader(body);
-//        Book book = new Book();
-//        book.setId(student.getId());
-//        book.setName(student.getName());
-//        book.setAuthor(authorDAO.getById(3));
 
         when(request.getReader()).thenReturn(new BufferedReader(reader));
         when(request.getServletPath()).thenReturn("/student/update");
@@ -131,14 +84,6 @@ public class StudentServletTest extends ServletTest{
 
     @Test
     public void deleteStudentTest() throws IOException, ServletException {
-        /*when(request.getParameter("student_id")).thenReturn("2");
-        when(request.getServletPath()).thenReturn("/student/delete");
-
-        studentServlet.doGet(request, response);
-
-        verify(studentService).deleteStudent(2);
-        verify(response).sendRedirect("/Success.jsp");
-    */
         when(request.getServletPath()).thenReturn("/student/delete");
 
         when(request.getParameter("student_id")).thenReturn("1");
@@ -153,17 +98,6 @@ public class StudentServletTest extends ServletTest{
 
     @Test
     public void showStudentTest() throws ServletException, IOException {
-        /*University uni = new University(1, "Princeton");
-        Student student = new Student(1, "Mary", uni);
-
-        when(studentService.getStudent(1)).thenReturn(student);
-        when(request.getServletPath()).thenReturn("/student/get");
-        when(request.getParameter("student_id")).thenReturn("1");
-
-        studentServlet.doGet(request, response);
-        //verify(studentService, times(2));
-        Assertions.assertEquals("Student: Mary  - University: Princeton\r\n", writer.toString());
-    */
         Student student = new Student(1, "Adam");
         when(studentService.getStudent(1)).thenReturn(student);
         when(request.getServletPath()).thenReturn("/student/get");
@@ -180,17 +114,7 @@ public class StudentServletTest extends ServletTest{
     @Test
     public void showAllStudentsTest() throws ServletException, IOException {
 
-       /* Student s1 = new Student(1, "Bob");
-        Student s2 = new Student(2, "Mary");
-        Student s3 = new Student(3, "Helen");
-
-        List<Student> students = Arrays.asList(s1, s2, s3);
-        when(studentService.getAllStudents()).thenReturn(students);
-        when(request.getServletPath()).thenReturn("/student/get-all");
-        studentServlet.doGet(request, response);
-        assertEquals("Bob | Mary | Helen | ", writer.toString());
-    */
-        when(request.getServletPath()).thenReturn("/student/get-all");
+       when(request.getServletPath()).thenReturn("/student/get-all");
 
         studentServlet.doGet(request, response);
 

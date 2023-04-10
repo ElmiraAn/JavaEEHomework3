@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 
 import java.util.List;
 import java.util.Objects;
+
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
 public class University {
     private int id;

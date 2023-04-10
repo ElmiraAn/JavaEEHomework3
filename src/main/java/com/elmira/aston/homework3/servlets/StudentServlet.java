@@ -19,8 +19,6 @@ import java.util.stream.Collectors;
 public class StudentServlet extends HttpServlet {
     private StudentService studentService;
     private ObjectMapper mapper;
-    //private UniversityService universityService;
-    //private SubjectService subjectService;
 
 
     public StudentServlet() {
@@ -31,14 +29,7 @@ public class StudentServlet extends HttpServlet {
     public StudentServlet(StudentService studentService) {
         this.studentService = studentService;
         this.mapper = new ObjectMapper();
-        //this.universityService = universityService;
     }
-
-    /*public StudentServlet(StudentService studentService, UniversityService universityService, SubjectService subjectService) {
-        this.studentService = studentService;
-        this.universityService = universityService;
-        this.subjectService = subjectService;
-    }*/
 
     @Override
     public void init() throws ServletException {
@@ -88,14 +79,6 @@ public class StudentServlet extends HttpServlet {
     }
 
     private void addStudent(HttpServletRequest request, HttpServletResponse response) {
-        /*Student student = null;
-        String studentName = request.getParameter("student_name");
-        int uniId = Integer.parseInt(request.getParameter("university_id"));
-        University university = universityService.getUniversity(uniId);
-        student = new Student(studentName, university);
-        studentService.addStudent(student, uniId);
-        response.sendRedirect("/Success.jsp");*/
-
         try {
             request.setCharacterEncoding("UTF-8");
             response.setCharacterEncoding("UTF-8");
@@ -111,14 +94,6 @@ public class StudentServlet extends HttpServlet {
     }
 
     private void updateStudent(HttpServletRequest request, HttpServletResponse response) {
-        /*int id = getValidId(request);
-        int uniId = Integer.parseInt(request.getParameter("university_id"));
-        University university = universityService.getUniversity(uniId);
-        String name = request.getParameter("student_name");
-        Student student = new Student(id, name, university);
-        studentService.updateStudent(student);
-        response.sendRedirect("/Success.jsp");*/
-
         try {
             request.setCharacterEncoding("UTF-8");
             response.setCharacterEncoding("UTF-8");
@@ -133,10 +108,6 @@ public class StudentServlet extends HttpServlet {
     }
 
     private void deleteStudent(HttpServletRequest request, HttpServletResponse response) {
-       /* int id = getValidId(request);
-        studentService.deleteStudent(id);
-        response.sendRedirect("/Success.jsp");*/
-
         try {
             request.setCharacterEncoding("UTF-8");
             int id = Integer.parseInt(request.getParameter("student_id"));
@@ -158,8 +129,6 @@ public class StudentServlet extends HttpServlet {
             String str = mapper.writeValueAsString(studentService.getStudent(id));
             PrintWriter pw = response.getWriter();
 
-            /*pw.println("Student: " + studentService.getStudent(getValidId(request)).getName() + "  - University: " +
-                    studentService.getStudent(getValidId(request)).getUniversity().getName());*/
             pw.print(str);
             pw.close();
         } catch (IOException e) {
@@ -168,7 +137,6 @@ public class StudentServlet extends HttpServlet {
     }
 
     private void getAllStudents(HttpServletRequest request, HttpServletResponse response) {
-
         try {
             request.setCharacterEncoding("UTF-8");
             response.setCharacterEncoding("UTF-8");
@@ -177,9 +145,6 @@ public class StudentServlet extends HttpServlet {
             List<Student> students = studentService.getAllStudents();
             String str = mapper.writeValueAsString(students);
             PrintWriter pw = response.getWriter();
-            /*for (Student student : students) {
-                pw.print(student.getName() + " | ");
-            }*/
             pw.print(str);
             pw.close();
         } catch (IOException e) {

@@ -63,12 +63,6 @@ public class SubjectServlet extends HttpServlet {
             case "/subject/update":
                 updateSubject(request, response);
                 break;
-            /*case "/categories/book/add":
-                addBookToCategory(request, response);
-                break;
-            case "/categories/book/delete":
-                deleteBookFromCategory(request, response);
-                break;*/
         }
     }
 
@@ -82,21 +76,12 @@ public class SubjectServlet extends HttpServlet {
             PrintWriter pw = response.getWriter();
             pw.println(str);
             pw.close();
-            /*PrintWriter pw = response.getWriter();
-            for (Subject subject : subjects) {
-                pw.println(subject.getName() + "|");
-            }
-            pw.close();*/
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
 
     private void addSubject(HttpServletRequest request, HttpServletResponse response) {
-        /*Subject subject = new Subject(request.getParameter("subject_name"));
-        subjectService.addSubject(subject);
-        response.sendRedirect("/Success.jsp");*/
-
         try {
             request.setCharacterEncoding("UTF-8");
             response.setCharacterEncoding("UTF-8");
@@ -111,12 +96,6 @@ public class SubjectServlet extends HttpServlet {
     }
 
     private void updateSubject(HttpServletRequest request, HttpServletResponse response) {
-        /*int id = getValidId(request);
-        String name = request.getParameter("subject_name");
-        Subject sub = new Subject(id, name);
-        subjectService.updateSubject(sub);
-        response.sendRedirect("/Success.jsp");*/
-
         try {
             request.setCharacterEncoding("UTF-8");
             response.setCharacterEncoding("UTF-8");
@@ -131,10 +110,6 @@ public class SubjectServlet extends HttpServlet {
     }
 
     private void deleteSubject(HttpServletRequest request, HttpServletResponse response) {
-        /*int id = getValidId(request);
-        subjectService.deleteSubject(id);
-        response.sendRedirect("/Success.jsp");*/
-
         try {
             request.setCharacterEncoding("UTF-8");
             int id = Integer.parseInt(request.getParameter("subject_id"));
@@ -156,10 +131,6 @@ public class SubjectServlet extends HttpServlet {
             PrintWriter pw = response.getWriter();
             pw.print(str);
             pw.close();
-
-            /*PrintWriter pw = response.getWriter();
-            pw.println(subjectService.getSubject(getValidId(request)).getName());
-            pw.close();*/
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

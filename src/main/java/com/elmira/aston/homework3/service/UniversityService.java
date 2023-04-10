@@ -7,6 +7,7 @@ import java.util.List;
 public interface UniversityService {
 
     University getUniversity(int id);
+
     List<University> getAllUniversities();
 
     void addUniversity(University university);

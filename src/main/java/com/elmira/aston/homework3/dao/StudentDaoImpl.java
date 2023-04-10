@@ -11,8 +11,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class StudentDaoImpl implements StudentDAO{
-
+public class StudentDaoImpl implements StudentDAO {
     MyConnection connect;
 
     public StudentDaoImpl() {

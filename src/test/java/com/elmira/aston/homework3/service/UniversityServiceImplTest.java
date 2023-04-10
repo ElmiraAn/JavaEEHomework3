@@ -16,22 +16,8 @@ public class UniversityServiceImplTest {
 
     @BeforeEach
     void setUp() {
-        /*service = new UniversityServiceImpl("h2");
-        String DB_URL = "jdbc:h2:./db/uni;INIT=runscript from 'src/test/resources/create_tables_h2.sql'";
-        String DB_USER = "sa";
-        String DB_PASSWORD = "";
-        String DRIVER = "org.h2.Driver";
-        Connection connection = null;
-        try {
-            Class.forName(DRIVER);
-            connection = DriverManager.getConnection(DB_URL,
-                    DB_USER, DB_PASSWORD);
-        } catch (SQLException | ClassNotFoundException e) {
-            throw new RuntimeException(e);
-        }*/
         universityDAO = mock(UniversityDAO.class);
         service = new UniversityServiceImpl(universityDAO);
-
     }
 
     @Test
@@ -39,13 +25,10 @@ public class UniversityServiceImplTest {
         University university = new University("Yale");
         service.addUniversity(university);
         verify(universityDAO).addUniversity(university);
-        //Assert.assertEquals(Yale.getName(), service.getUniversity(5).getName());
     }
 
     @Test
     public void getUniversity() {
-        //University university = service.getUniversity(Harvard.getId());
-        //Assert.assertEquals(Harvard.getName(), university.getName());
         University university = new University(1, "Yale");
         when(universityDAO.getUniById(1)).thenReturn(university);
         University university2 = service.getUniversity(1);
@@ -55,8 +38,6 @@ public class UniversityServiceImplTest {
 
     @Test
     public void getAllUniversities() {
-        //List<University> allUniversities = this.service.getAllUniversities();
-        //Assert.assertEquals(UNIVERSITIES.size(), allUniversities.size());
         List<University> universities1 = Arrays.asList(
                 new University(1, "Oxford"),
                 new University(2, "Yale")
@@ -69,8 +50,6 @@ public class UniversityServiceImplTest {
 
     @Test
     public void deleteUniversity() {
-        //service.deleteUniversity(Cambridge.getId());
-        //Assert.assertEquals(UNIVERSITIES.size() - 1, service.getAllUniversities().size());
         List<University> universities1 = Arrays.asList(
                 new University(1, "Oxford"),
                 new University(2, "Yale")
@@ -81,11 +60,6 @@ public class UniversityServiceImplTest {
 
     @Test
     public void updateUniversity() {
-        /*setUp();
-        University university = new University(Oxford.getId(), "Oxford University");
-        service.updateUniversity(university);
-        Assert.assertEquals("Oxford University", service.getUniversity(Oxford.getId()).getName());
-    */
         University university = new University(1, "Yale");
         university.setName("Update Yale");
         service.updateUniversity(university);

@@ -10,7 +10,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class UniversityDaoImpl implements UniversityDAO{
+public class UniversityDaoImpl implements UniversityDAO {
     MyConnection connect;
 
     public UniversityDaoImpl() {
@@ -48,7 +48,7 @@ public class UniversityDaoImpl implements UniversityDAO{
             ResultSet rs = ps.executeQuery();
 
             while (rs.next()) {
-                int id = rs.getInt("university_id");//!!!!!!!!!!!!!1
+                int id = rs.getInt("university_id");
                 String name = rs.getString("university_name");
                 universities.add(new University(id, name));
             }

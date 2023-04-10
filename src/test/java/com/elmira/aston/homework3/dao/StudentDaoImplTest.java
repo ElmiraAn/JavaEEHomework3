@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Assertions;
 
 import java.util.List;
 
-public class StudentDaoImplTest extends  DaoTest{
+public class StudentDaoImplTest extends DaoTest {
 
     @Test
     public void addStudent() {
@@ -15,7 +15,6 @@ public class StudentDaoImplTest extends  DaoTest{
         newStudent.setName("Mark");
         studentDAO.addStudent(newStudent, 1);
         Assertions.assertEquals(newStudent.getName(), studentDAO.getStudentById(9).getName());
-
     }
 
     @Test
@@ -23,7 +22,6 @@ public class StudentDaoImplTest extends  DaoTest{
         Student student1 = new Student(1, "Adam");
         Student student2 = studentDAO.getStudentById(1);
         Assertions.assertEquals(student1.getName(), student2.getName());
-
     }
 
     @Test
@@ -31,7 +29,6 @@ public class StudentDaoImplTest extends  DaoTest{
         Assertions.assertEquals(8, studentDAO.getAllStudents().size());
         studentDAO.deleteStudent(2);
         Assertions.assertEquals(7, studentDAO.getAllStudents().size());
-
     }
 
     @Test
