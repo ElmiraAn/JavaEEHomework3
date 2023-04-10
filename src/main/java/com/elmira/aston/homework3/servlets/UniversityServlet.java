@@ -13,7 +13,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 @WebServlet(urlPatterns = {"/university/add", "/university/update", "/university/delete",
-        "/university/get-all", "/university/get"/*, "/university/get-with-students"*/})
+        "/university/get-all", "/university/get"})
 
 public class UniversityServlet extends HttpServlet {
     private UniversityService universityService;
@@ -45,9 +45,6 @@ public class UniversityServlet extends HttpServlet {
             case "/university/get":
                 getUniversity(request, response);
                 break;
-            /*case "/university/get-with-students":
-                showUniversityWithStudents(request, response);
-                break;*/
             case "/university/get-all":
             default:
                 allUniversities(request, response);
@@ -55,7 +52,7 @@ public class UniversityServlet extends HttpServlet {
     }
 
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)  {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) {
         String action = request.getServletPath();
 
         switch (action) {
@@ -133,28 +130,4 @@ public class UniversityServlet extends HttpServlet {
             throw new RuntimeException(e);
         }
     }
-
-    /*private void showUniversityWithStudents(HttpServletRequest request, HttpServletResponse response) {
-        try {
-            request.setCharacterEncoding("UTF-8");
-            response.setCharacterEncoding("UTF-8");
-            response.setContentType("text/html");
-            PrintWriter pw = response.getWriter();
-            University uni = universityService.getUniversityWithStudents(getValidId(request));
-            List<Student> students = uni.getStudents();
-            pw.println(uni.getName() + ": ");
-            for (Student student : students) {
-                pw.print(student.getName() + ", ");
-            }
-            pw.close();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }*/
-
-    /*private int getValidId(HttpServletRequest request) {
-        String paramId = Objects.requireNonNull(request.getParameter("university_id"));
-        return Integer.parseInt(paramId);
-    }*/
-
 }

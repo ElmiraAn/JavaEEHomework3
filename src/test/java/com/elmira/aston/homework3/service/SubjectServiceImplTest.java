@@ -7,6 +7,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.*;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
 
@@ -67,12 +68,4 @@ public class SubjectServiceImplTest {
         subjectService.updateSubject(subject);
         verify(subjectDAO).updateSubject(subject);
     }
-
-    /*@Test
-    public void getSubjectWithStudent() {
-        setUp();
-        Subject subject = subjectService.getSubjectWithStudent(1);
-        Assert.assertEquals(subjectsFotStudent.size(), subject.getStudents().size());
-        Assert.assertEquals(ADAM.getName(), subject.getStudents().get(0).getName());
-    }*/
 }

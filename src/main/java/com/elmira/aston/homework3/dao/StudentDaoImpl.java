@@ -1,15 +1,13 @@
 package com.elmira.aston.homework3.dao;
 
 import com.elmira.aston.homework3.connection.MyConnection;
-import com.elmira.aston.homework3.model.Student;
-import com.elmira.aston.homework3.model.University;
+import com.elmira.aston.homework3.model.*;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class StudentDaoImpl implements StudentDAO {
     MyConnection connect;

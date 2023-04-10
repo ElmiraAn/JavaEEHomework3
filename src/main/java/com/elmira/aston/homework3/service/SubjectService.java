@@ -16,7 +16,4 @@ public interface SubjectService {
 
     void updateSubject(Subject subject);
 
-    //Subject getSubjectWithStudent(int id);
-
-
 }

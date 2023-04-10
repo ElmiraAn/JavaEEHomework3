@@ -3,7 +3,6 @@ package com.elmira.aston.homework3.servlets;
 import com.elmira.aston.homework3.model.*;
 import com.elmira.aston.homework3.service.StudentService;
 import com.elmira.aston.homework3.service.StudentServiceImpl;
-import com.elmira.aston.homework3.service.UniversityService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import javax.servlet.ServletException;
@@ -14,8 +13,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 @WebServlet(urlPatterns = {"/student/add", "/student/update", "/student/delete",
-        "/student/get-all", "/student/get"/*, "/student/get-with-uni",
-        "/student/get-subjects", "/student/add-subject", "/student/delete-subject"*/})
+        "/student/get-all", "/student/get"})
 public class StudentServlet extends HttpServlet {
     private StudentService studentService;
     private ObjectMapper mapper;
@@ -37,7 +35,7 @@ public class StudentServlet extends HttpServlet {
     }
 
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) {
         String action = request.getServletPath();
 
         switch (action) {
@@ -51,22 +49,11 @@ public class StudentServlet extends HttpServlet {
             default:
                 getAllStudents(request, response);
                 break;
-           /* case "/student/get-subjects":
-                getSubjectsForStudent(request, response);
-                break;
-            case "/student/add-subject":
-                addSubjectForStudent(request, response);
-                break;
-            case "/student/delete-subject":
-                deleteSubjectForStudent(request, response);
-                break;
-            default:
-                allStudentsWithUni(request, response);*/
         }
     }
 
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) {
         String action = request.getServletPath();
         switch (action) {
             case "/student/add":
@@ -151,67 +138,5 @@ public class StudentServlet extends HttpServlet {
             throw new RuntimeException(e);
         }
     }
-
-    /*private void allStudentsWithUni(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        List<Student> students = studentService.getAllStudentsWithUniversity();
-
-        request.setAttribute("students", students);
-        try {
-            request.setCharacterEncoding("UTF-8");
-            response.setCharacterEncoding("UTF-8");
-            response.setContentType("text/html");
-            PrintWriter pw = response.getWriter();
-            for (Student student : students) {
-                pw.println(student.getName() + " - Университет: " + student.getUniversity().getName() + " | ");
-            }
-            pw.close();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    private void addSubjectForStudent(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        int studentId = Integer.parseInt(request.getParameter("student_id"));
-        int subjectId = Integer.parseInt(request.getParameter("subject_id"));
-        Student student = studentService.getStudent(studentId);
-        Subject subject = subjectService.getSubject(subjectId);
-        studentService.addSubjectForStudent(student, subject);
-        response.sendRedirect("/Success.jsp");
-    }
-
-    private void getSubjectsForStudent(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        List<Subject> subjects = new ArrayList<>();
-        int studentId = getValidId(request);
-        Student student = studentService.getStudent(studentId);
-        subjects = studentService.getSubjectsForStudent(studentId);
-        try {
-            request.setCharacterEncoding("UTF-8");
-            response.setCharacterEncoding("UTF-8");
-            response.setContentType("text/html");
-            PrintWriter pw = response.getWriter();
-            pw.println(student.getName() + ": ");
-            for (Subject subject : subjects) {
-                pw.print(subject.getName() + ", ");
-            }
-            pw.close();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    private void deleteSubjectForStudent(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        int studentId = Integer.parseInt(request.getParameter("student_id"));
-        int subjectId = Integer.parseInt(request.getParameter("subject_id"));
-        Student student = studentService.getStudent(studentId);
-        Subject subject = subjectService.getSubject(subjectId);
-        studentService.deleteSubjectForStudent(student, subject);
-
-        response.sendRedirect("/Success.jsp");
-    }
-
-    private int getValidId(HttpServletRequest request) {
-        String paramId = Objects.requireNonNull(request.getParameter("student_id"));
-        return Integer.parseInt(paramId);
-    }*/
 
 }

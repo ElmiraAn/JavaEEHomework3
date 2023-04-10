@@ -18,11 +18,9 @@ public class StudentServiceImplTest {
     private UniversityDAO universityDAO;
     private StudentDAO studentDAO;
 
-
-
     @BeforeEach
     void setUp() {
-        universityDAO=mock(UniversityDAO.class);
+        universityDAO = mock(UniversityDAO.class);
         studentDAO = mock(StudentDAO.class);
         studentService = new StudentServiceImpl(studentDAO);
     }
@@ -33,14 +31,14 @@ public class StudentServiceImplTest {
         when(studentDAO.getStudentById(1)).thenReturn(student1);
         Student student2 = studentService.getStudent(1);
         verify(studentDAO).getStudentById(1);
-        assertEquals(student1.getName(),student2.getName());
+        assertEquals(student1.getName(), student2.getName());
     }
 
     @Test
     public void addStudent() {
         Student newStudent = new Student(1, "Elena", new University(1, "Oxford"));
         studentService.addStudent(newStudent, 1);
-        verify(studentDAO).addStudent(newStudent,1);
+        verify(studentDAO).addStudent(newStudent, 1);
     }
 
     @Test
@@ -76,41 +74,4 @@ public class StudentServiceImplTest {
         assertEquals(students1.size(), students2.size());
 
     }
-
-    /*@Test
-    public void getAllStudentsWithUniversity() {
-        setUp();
-        List<Student> allStudentsWithUniversity = studentService.getAllStudentsWithUniversity();
-        Student student = allStudentsWithUniversity.get(1);
-        Assert.assertEquals(Harvard.getName(), student.getUniversity().getName());
-        Assert.assertEquals(students.size(), allStudentsWithUniversity.size());
-    }
-
-    @Test
-    public void addSubjectForStudent() {
-        setUp();
-        Student student = studentService.getStudent(1);
-        Subject subject = subjectService.getSubject(2);
-        studentService.addSubjectForStudent(student, subject);
-        Assert.assertEquals(3, studentService.getSubjectsForStudent(1).size());
-    }
-
-    @Test
-    public void getSubjectsForStudent() {
-        setUp();
-        List<Subject> subjects = studentService.getSubjectsForStudent(1);
-        Assert.assertEquals(2, subjects.size());
-        Assert.assertEquals(MATHS, subjects.get(0));
-        Assert.assertEquals(PHYSICS, subjects.get(1));
-    }
-
-    @Test
-    public void deleteCategoryForBook() {
-        setUp();
-        List<Subject> subjects = studentService.getSubjectsForStudent(1);
-        Subject subject = subjectService.getSubject(1);
-        Student student = studentService.getStudent(1);
-        studentService.deleteSubjectForStudent(student, subject);
-        Assert.assertEquals(1, studentService.getSubjectsForStudent(1).size());
-    }*/
 }

@@ -28,13 +28,12 @@ public class UniversityServletTest extends ServletTest{
         when(universityService.getAllUniversities()).thenReturn(allUniversities);
         when(request.getServletPath()).thenReturn("/university/get-all");
         universityServlet.doGet(request, response);
-        //Assertions.assertEquals("Oxford|\r\nYale|\r\n", writer.toString());
         Assertions.assertEquals("[{\"id\":1,\"name\":\"Oxford\"}," +
                 "{\"id\":2,\"name\":\"Yale\"}]\r\n", writer.toString());
     }
 
     @Test
-    public void addUniversityTest() throws IOException, ServletException {
+    public void addUniversityTest() throws IOException {
         University university = new University(1, "Oxford");
         String str_body = mapper.writeValueAsString(university);
         StringReader reader = new StringReader(str_body);
@@ -49,7 +48,7 @@ public class UniversityServletTest extends ServletTest{
     }
 
     @Test
-    public void updateUniversityTest() throws IOException, ServletException {
+    public void updateUniversityTest() throws IOException {
         University university = new University(1, "Oxford");
         university.setName("Oxford University");
         String srt_body = mapper.writeValueAsString(university);
@@ -88,19 +87,4 @@ public class UniversityServletTest extends ServletTest{
 
         Assertions.assertEquals("{\"id\":1,\"name\":\"Yale\"}", writer.toString());
     }
-
-    /*@Test
-    public void showUniversityWithStudentsTest() throws ServletException, IOException {
-        Student s1 = new Student(1, "Bob");
-        Student s2 = new Student(2, "Mary");
-        Student s3 = new Student(3, "Helen");
-        University uni = new University(1, "Princeton", Arrays.asList(s1,s2,s3));
-
-        when(universityService.getUniversityWithStudents(1)).thenReturn(uni);
-        when(request.getServletPath()).thenReturn("/university/get-with-students");
-        when(request.getParameter("university_id")).thenReturn("1");
-
-        universityServlet.doGet(request, response);
-        Assertions.assertEquals("Princeton: \r\nBob, Mary, Helen, ", writer.toString());
-    }*/
 }

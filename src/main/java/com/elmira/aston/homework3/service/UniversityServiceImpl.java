@@ -43,31 +43,4 @@ public class UniversityServiceImpl implements UniversityService {
         universityDAO.updateUniversity(university);
     }
 
-
-
-/*
-
-    public University getUniversityWithStudents(int id) {
-        University universityWithStudents = null;
-        List<Student> students = new ArrayList<>();
-        try (Connection connection = getConnection();
-             PreparedStatement ps = connection.prepareStatement(
-                     "SELECT u.university_name, s.student_id, s.student_name FROM universities u " +
-                             "JOIN students s on u.university_id = s.university_id WHERE s.university_id=?")) {
-            ps.setInt(1, id);
-            ResultSet rs = ps.executeQuery();
-
-            while (rs.next()) {
-                String uniName = rs.getString("university_name");
-                int studentId = rs.getInt("student_id");
-                String studentName = rs.getString("student_name");
-                students.add(new Student(studentId, studentName));
-                universityWithStudents = new University(id, uniName, students);
-            }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-        return universityWithStudents;
-    }*/
-
 }

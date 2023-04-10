@@ -42,31 +42,4 @@ public class SubjectServiceImpl implements SubjectService {
     public void updateSubject(Subject subject) {
         subjectDAO.updateSubject(subject);
     }
-
-    /*
-
-    @Override
-    public Subject getSubjectWithStudent(int id) {
-        List<Student> students = new ArrayList<>();
-        Subject subject = null;
-        try (Connection connection = getConnection();
-             PreparedStatement ps = connection.prepareStatement(
-                     "SELECT sub.subject_name, s.student_name FROM subjects sub " +
-                             "JOIN student_subject ss on sub.subject_id = ss.subject_id " +
-                             "JOIN students s on s.student_id = ss.student_id WHERE ss.subject_id=?")) {
-            ps.setInt(1, id);
-            ResultSet rs = ps.executeQuery();
-
-            while (rs.next()) {
-                String name = rs.getString("subject_name");
-                String studentName = rs.getString("student_name");
-                students.add(new Student(studentName));
-                subject = new Subject(id, name);
-                subject.setStudents(students);
-            }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-        return subject;
-    }*/
 }

@@ -16,5 +16,4 @@ public interface UniversityService {
 
     void updateUniversity(University university);
 
-    //University getUniversityWithStudents(int id);
 }

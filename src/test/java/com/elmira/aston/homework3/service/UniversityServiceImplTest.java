@@ -65,16 +65,4 @@ public class UniversityServiceImplTest {
         service.updateUniversity(university);
         verify(universityDAO).updateUniversity(university);
     }
-       /*
-
-    @Test
-    public void getUniversityWithStudents() {
-        setUp();
-        University university = service.getUniversityWithStudents(3);
-        List<Student> students = university.getStudents();
-        for (Student student : students) {
-            System.out.println(student.getName());
-        }
-        Assert.assertEquals(2, service.getUniversityWithStudents(3).getStudents().size());
-    }*/
 }

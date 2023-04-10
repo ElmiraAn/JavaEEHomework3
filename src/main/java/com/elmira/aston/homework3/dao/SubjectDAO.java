@@ -15,6 +15,4 @@ public interface SubjectDAO {
     void deleteSubject(int id);
 
     void updateSubject(Subject subject);
-
-    //Subject getSubjectWithStudent(int id);
 }

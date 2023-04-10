@@ -31,7 +31,7 @@ public class SubjectServletTest extends ServletTest{
     }
 
     @Test
-    public void addSubjectTest() throws ServletException, IOException {
+    public void addSubjectTest() throws IOException {
         Subject subject = new Subject("English");
 
         String body = mapper.writeValueAsString(subject);
@@ -92,21 +92,4 @@ public class SubjectServletTest extends ServletTest{
         Assertions.assertEquals("{\"id\":1,\"name\":\"Maths\"}", writer.toString());
 
     }
-    /*@Test
-    public void showSubjectWithStudentsTest() throws ServletException, IOException {
-
-        Student s1 = new Student(1, "Bob");
-        Student s2 = new Student(2, "Mary");
-        Subject subject = new Subject(1, "Maths", Arrays.asList(s1,s2));
-
-        when(request.getParameter("subject_id")).thenReturn("1");
-        when(subjectService.getSubjectWithStudent(1)).thenReturn(subject);
-        when(request.getServletPath()).thenReturn("/subject/get-with-students");
-        subjectServlet.doGet(request, response);
-
-        verify(subjectService).getSubjectWithStudent(1);
-        assertEquals("Maths: \r\nBob, Mary, ", writer.toString());
-
-    }*/
-
 }

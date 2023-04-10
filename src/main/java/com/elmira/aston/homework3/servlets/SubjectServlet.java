@@ -13,7 +13,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 @WebServlet(urlPatterns = {"/subject/add", "/subject/update", "/subject/delete",
-        "/subject/get", "/subject/get-all"/*, "/subject/get-with-students"*/})
+        "/subject/get", "/subject/get-all"})
 public class SubjectServlet extends HttpServlet {
     private SubjectService subjectService;
     private ObjectMapper mapper;
@@ -38,9 +38,6 @@ public class SubjectServlet extends HttpServlet {
         String action = request.getServletPath();
 
         switch (action) {
-            /*case "/subject/get-with-students":
-                showSubjectWithStudents(request, response);
-                break;*/
             case "/subject/delete":
                 deleteSubject(request, response);
                 break;
@@ -135,27 +132,4 @@ public class SubjectServlet extends HttpServlet {
             throw new RuntimeException(e);
         }
     }
-
-    /*private void showSubjectWithStudents(HttpServletRequest request, HttpServletResponse response) {
-        try {
-            request.setCharacterEncoding("UTF-8");
-            response.setCharacterEncoding("UTF-8");
-            response.setContentType("text/html");
-            PrintWriter pw = response.getWriter();
-            Subject category = subjectService.getSubjectWithStudent(getValidId(request));
-            List<Student> students = category.getStudents();
-            pw.println(category.getName() + ": ");
-            for (Student student : students) {
-                pw.print(student.getName() + ", ");
-            }
-            pw.close();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    private int getValidId(HttpServletRequest request) {
-        String paramId = Objects.requireNonNull(request.getParameter("subject_id"));
-        return Integer.parseInt(paramId);
-    }*/
 }

@@ -16,12 +16,4 @@ public interface StudentService {
 
     List<Student> getAllStudents();
 
-    //List<Student> getAllStudentsWithUniversity();
-
-    // void addSubjectForStudent(Student student, Subject subject);
-
-    //List<Subject> getSubjectsForStudent(int studentId);
-
-    //void deleteSubjectForStudent(Student student, Subject subject);
-
 }
